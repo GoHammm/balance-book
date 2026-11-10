@@ -1,0 +1,1052 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Learn, practise and take mock tests on simultaneous equations and geometry, with every step explained.">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Balance Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=STIX+Two+Text:ital,wght@0,500;1,500&display=swap">
+<style>
+/* Layout: an exercise book — graph-paper ground, a red margin rule down the left of the sheet, equations set in a maths face */
+:root{
+  --paper:#f5f8fc; --grid:#dfe7f2; --sheet:#ffffff; --ink:#18263b; --muted:#56667e;
+  --accent:#2346c8; --accent-soft:#e3e9ff; --mark:#ffe14d; --margin:#e0565b;
+  --good:#1d8456; --good-soft:#e1f4ea; --bad:#c23d36; --bad-soft:#fbe6e4; --line:#cfd9e7; --c3:#a23f86; --c4:#b46a08;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-math:"STIX Two Text", "Cambria Math", "Times New Roman", serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0f151e; --grid:#1a2431; --sheet:#151d29; --ink:#e5ebf4; --muted:#93a1b6;
+  --accent:#86a0ff; --accent-soft:#1f2a4d; --mark:#d9bb2c; --margin:#c9585c;
+  --good:#53c48e; --good-soft:#14301f; --bad:#f07d75; --bad-soft:#3a1a18; --line:#263244; --c3:#e08acb; --c4:#f0a94a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0f151e; --grid:#1a2431; --sheet:#151d29; --ink:#e5ebf4; --muted:#93a1b6;
+  --accent:#86a0ff; --accent-soft:#1f2a4d; --mark:#d9bb2c; --margin:#c9585c;
+  --good:#53c48e; --good-soft:#14301f; --bad:#f07d75; --bad-soft:#3a1a18; --line:#263244; --c3:#e08acb; --c4:#f0a94a; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px;min-height:100vh}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 64px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.brand{font-family:var(--f-display);font-weight:800;font-size:1.5rem;letter-spacing:-.02em;display:flex;align-items:center;gap:10px;cursor:pointer;background:none;border:0;color:var(--ink);padding:0}
+.brand svg{width:34px;height:34px}
+nav.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{font:700 .9rem var(--f-body);border:1.5px solid var(--line);background:var(--sheet);color:var(--ink);padding:8px 14px;border-radius:999px;cursor:pointer}
+.tab[aria-current="page"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.sheet{background:var(--sheet);border:1px solid var(--line);border-radius:6px;position:relative;padding:22px 22px 22px 44px;box-shadow:0 1px 0 var(--line),0 8px 24px -18px rgba(20,40,80,.35)}
+.sheet::before{content:"";position:absolute;left:26px;top:0;bottom:0;width:2px;background:var(--margin);opacity:.7}
+.stack{display:flex;flex-direction:column;gap:20px}
+h1,h2,h3{font-family:var(--f-display);letter-spacing:-.015em;text-wrap:balance;margin:0}
+h1{font-size:clamp(1.7rem,4.5vw,2.5rem);font-weight:800;line-height:1.1}
+h2{font-size:1.35rem;font-weight:700}
+h3{font-size:1.05rem;font-weight:700}
+p{margin:0;max-width:65ch}
+.muted{color:var(--muted)}
+.label{font:700 .72rem var(--f-body);text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+.hl{background:linear-gradient(transparent 55%,var(--mark) 55%);padding:0 2px}
+
+.hero{display:grid;grid-template-columns:1.4fr 1fr;gap:22px;align-items:start}
+.hero > *{min-width:0}
+.namefield{display:flex;flex-direction:column;gap:6px;margin-top:14px;max-width:320px}
+input[type=text]{font:inherit;font-size:1rem;padding:10px 12px;border:1.5px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);width:100%}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{border:1px dashed var(--line);border-radius:6px;padding:10px 12px}
+.stat b{display:block;font-family:var(--f-display);font-size:1.6rem;font-variant-numeric:tabular-nums;line-height:1.1}
+
+.track-head{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap}
+.topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-top:14px}
+.topic{display:flex;flex-direction:column;gap:10px;text-align:left;font:inherit;color:inherit;background:var(--paper);border:1.5px solid var(--line);border-radius:6px;padding:14px;cursor:pointer;min-width:0}
+.topic:hover:not([disabled]){border-color:var(--accent)}
+.topic[disabled]{cursor:not-allowed;opacity:.6}
+.topic .eq{font-family:var(--f-math);font-size:1.05rem;color:var(--muted)}
+.topic .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bar{height:8px;background:var(--grid);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:4px}
+.pill{font:700 .72rem var(--f-body);padding:3px 9px;border-radius:999px;white-space:nowrap;letter-spacing:.03em}
+.pill.ok{background:var(--good-soft);color:var(--good)}
+.pill.lock{background:var(--grid);color:var(--muted)}
+.pill.go{background:var(--accent-soft);color:var(--accent)}
+
+.btn{font:700 1rem var(--f-body);padding:11px 18px;border-radius:6px;border:1.5px solid var(--ink);background:var(--ink);color:var(--sheet);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.small{padding:7px 12px;font-size:.88rem}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+.lesson{display:flex;flex-direction:column;gap:14px}
+.rule{border-left:4px solid var(--mark);background:var(--paper);padding:12px 14px;border-radius:0 6px 6px 0}
+.work{font-family:var(--f-math);font-size:1.2rem;display:flex;flex-direction:column;gap:4px;padding:12px 0;overflow-x:auto}
+.work .s{display:grid;grid-template-columns:minmax(0,auto) 1fr;gap:14px;align-items:baseline}
+.work .s span:last-child{font-family:var(--f-body);font-size:.9rem;color:var(--muted)}
+.math{font-family:var(--f-math)}
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.05;margin:0 2px}
+.frac > span:first-child{border-bottom:1.5px solid currentColor;padding:0 3px}
+.frac > span:last-child{padding:0 3px}
+
+.qbox{display:flex;flex-direction:column;gap:16px}
+.question{font-family:var(--f-math);font-size:clamp(1.6rem,6vw,2.4rem);padding:18px 0;overflow-x:auto;white-space:nowrap}
+.answer-row{display:flex;gap:10px;flex-wrap:wrap}
+.answer-row input{flex:1 1 200px;font-family:var(--f-math);font-size:1.3rem}
+.fb{border-radius:6px;padding:12px 14px}
+.fb.good{background:var(--good-soft);color:var(--good)}
+.fb.bad{background:var(--bad-soft);color:var(--bad)}
+.fb .work{color:var(--ink)}
+.dots{display:flex;gap:6px;flex-wrap:wrap}
+.dots i{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--line);display:inline-block}
+.dots i.y{background:var(--good);border-color:var(--good)}
+.dots i.n{background:var(--bad);border-color:var(--bad)}
+.subtabs{display:flex;gap:4px;border-bottom:1.5px solid var(--line)}
+.subtab{font:700 .95rem var(--f-body);background:none;border:0;border-bottom:3px solid transparent;padding:8px 14px;margin-bottom:-1.5px;color:var(--muted);cursor:pointer}
+.subtab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+
+.mocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.mockcard{border:1.5px solid var(--line);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--paper)}
+.chartbox{overflow-x:auto}
+.chartbox svg{width:100%;min-width:320px;height:auto;display:block}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+td,th{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);font-size:.92rem}
+th{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.tablebox{overflow-x:auto}
+
+.achs{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.ach{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--line);border-radius:6px;padding:12px;background:var(--paper)}
+.ach .badge{flex:0 0 44px;height:44px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1rem;border:2px dashed var(--line);color:var(--muted)}
+.ach.on .badge{background:var(--mark);border:2px solid var(--ink);color:#18263b}
+.ach.off{opacity:.65}
+.ach div{min-width:0}
+.ach small{display:block;color:var(--muted);font-size:.85rem;line-height:1.35}
+
+.mockhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.timer{font-family:var(--f-display);font-weight:700;font-variant-numeric:tabular-nums;font-size:1.2rem}
+.score-big{font-family:var(--f-display);font-weight:800;font-size:clamp(3rem,12vw,5rem);line-height:1}
+details{border-bottom:1px solid var(--line);padding:10px 0}
+summary{cursor:pointer;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+summary .math{font-size:1.1rem}
+
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--sheet);padding:12px 18px;border-radius:8px;font-weight:700;display:flex;gap:10px;align-items:center;z-index:20;max-width:calc(100% - 32px);box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}
+.toast .badge{width:30px;height:30px;border-radius:50%;background:var(--mark);color:#18263b;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;flex:0 0 30px}
+@media (prefers-reduced-motion:no-preference){.toast{animation:pop .35s ease-out}@keyframes pop{from{transform:translate(-50%,20px);opacity:0}}}
+.howto{font-size:.88rem;color:var(--muted)}
+.work .d{grid-column:1/-1;font-family:var(--f-body);font-size:.92rem;line-height:1.55;color:var(--ink);background:var(--paper);border-left:3px solid var(--mark);padding:8px 12px;margin:2px 0 10px;border-radius:0 4px 4px 0;max-width:68ch;white-space:normal}
+.work .d .math{font-size:1.02rem}
+body.brief .work .d{display:none}
+.seg{display:inline-flex;align-self:flex-start;background:var(--sheet);border:1.5px solid var(--line);border-radius:999px;padding:4px;gap:4px}
+.seg button{font:700 1rem var(--f-display);border:0;background:transparent;color:var(--muted);padding:9px 20px;border-radius:999px;cursor:pointer}
+.seg button[aria-selected="true"]{background:var(--accent);color:var(--sheet)}
+.fig{margin:6px 0;max-width:360px}
+.fig svg{width:100%;height:auto;display:block}
+.fig figcaption{font-size:.8rem;color:var(--muted)}
+.fig .sh{fill:var(--accent-soft);stroke:var(--ink);stroke-width:2;stroke-linejoin:round}
+.fig .ln{stroke:var(--ink);stroke-width:2;fill:none}
+.fig .ln.thin{stroke-width:1.5}
+.fig .ln.acc{stroke:var(--accent);stroke-width:2.5}
+.fig .arc{stroke:var(--muted);stroke-width:1.5;fill:none}
+.fig .dash{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:5 4;fill:none}
+.fig .gr{stroke:var(--grid);stroke-width:1}
+.fig .ax{stroke:var(--muted);stroke-width:1.5}
+.fig .pt{fill:var(--accent)}
+.fig .lb{fill:var(--ink);font-family:var(--f-math);font-size:16px}
+.fig .lb.sm{font-size:14px}
+.fig .lb.xs{font-size:11px;font-family:var(--f-body)}
+.fig .lb.mu{fill:var(--muted)}
+.fig .lb.hl{fill:var(--accent);font-weight:700;font-size:18px}
+.lesson .fig{max-width:380px}
+.field{display:inline-flex;align-items:center;gap:6px;flex-wrap:nowrap}
+.unit{font-family:var(--f-math);font-size:1.1rem;color:var(--muted)}
+.pill.read{background:var(--mark);color:#18263b}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.topic.start{border-color:var(--mark);border-width:2px}
+h1 .hl{white-space:nowrap}
+@media (max-width:560px){.work .s{grid-template-columns:1fr;gap:0}.work .s span:last-child{margin-bottom:4px}}
+.detail-toggle{display:flex;align-items:center;gap:8px;font-weight:700;font-size:.88rem;cursor:pointer}
+.detail-toggle input{width:18px;height:18px;accent-color:var(--accent)}
+.vocab{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.vocab div{border:1px dashed var(--line);border-radius:6px;padding:10px 12px}
+.try{border-collapse:collapse;font-family:var(--f-math);font-size:1.05rem;width:auto}
+.try td,.try th{border:1px solid var(--line);padding:6px 12px;text-align:center}
+.try .yes{background:var(--good-soft);color:var(--good);font-weight:700}
+.sys{display:inline-flex;flex-direction:column;gap:.15em;vertical-align:middle}
+.sys i{font-style:normal;font-family:var(--f-body);font-size:.5em;color:var(--muted);margin-right:.9em;vertical-align:.2em}
+.question.word{font-family:var(--f-body);font-size:1.15rem;white-space:normal;max-width:60ch;line-height:1.6}
+.pairs{display:flex;flex-direction:column;gap:10px;flex-basis:100%}
+.pair{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.pair .label{min-width:84px}
+.pair label.v{font-family:var(--f-math);font-size:1.15rem;white-space:nowrap}
+.pair input{width:120px;flex:0 1 120px;font-family:var(--f-math);font-size:1.25rem}
+code{font-family:var(--f-math);background:var(--paper);padding:0 4px;border-radius:3px}
+
+@media (max-width:700px){
+  .hero{grid-template-columns:1fr}
+  .sheet{padding:18px 16px 18px 34px}
+  .sheet::before{left:18px}
+}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="top">
+    <button class="brand" id="brand" aria-label="Balance Book home">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 6v26M8 32h24" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M6 14h28" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M6 14l-4 9h8zM34 14l-4 9h8z" fill="var(--mark)" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      Balance Book
+    </button>
+    <nav class="tabs" aria-label="Sections">
+      <button class="tab" data-nav="home">Topics</button>
+      <button class="tab" data-nav="mocks">Mock tests</button>
+      <button class="tab" data-nav="achs">Achievements</button>
+    </nav>
+    <label class="detail-toggle"><input type="checkbox" id="detail" checked> Detailed explanations</label>
+  </header>
+  <main id="app"></main>
+</div>
+<div id="toastbox"></div>
+
+<script>
+
+/* ---------- helpers ---------- */
+const R=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const nz=(a,b)=>{let v;do v=R(a,b);while(v===0);return v};
+const pick=a=>a[R(0,a.length-1)];
+const sgn=()=>Math.random()<.5?-1:1;
+const gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);
+const lcm=(a,b)=>Math.abs(a*b)/gcd(a,b);
+const num=n=>n<0?'−'+Math.abs(n):''+n;
+function term(c,v,first){if(!c)return'';const m=Math.abs(c)===1&&v?'':Math.abs(c);return first?(c<0?'−':'')+m+v:(c<0?' − ':' + ')+m+v}
+function eqxy(a,b,c){let s=term(a,'x',true);s+=s?term(b,'y',false):term(b,'y',true);return`${s||'0'} = ${num(c)}`}
+function lin(a,b){let s=term(a,'x',true);if(b)s+=s?term(b,'',false):num(b);return s||'0'}
+function quad(a,b,c){let s=term(a,'x²',true);s+=term(b,'x',!s);if(c)s+=s?term(c,'',false):num(c);return s||'0'}
+const fac=(p,q)=>[p,q].map(r=>r===0?'x':`(${lin(1,-r)})`).join('')+' = 0';
+const frac=(t,b)=>`<span class="frac"><span>${t}</span><span>${b}</span></span>`;
+const move=b=>b>0?`Subtract ${b} from both sides`:`Add ${-b} to both sides`;
+const sys=(e1,e2)=>`<span class="sys"><span><i>(1)</i>${e1}</span><span><i>(2)</i>${e2}</span></span>`;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const tx=(c,v)=>term(c,v,true)||'0';
+const par=n=>n<0?`(${num(n)})`:num(n);
+const txp=(c,v)=>c<0?`(${tx(c,v)})`:tx(c,v);
+const M_=s=>`<span class="math">${s}</span>`;
+const pm=n=>n<0?'− '+Math.abs(n):'+ '+n;
+function divTip(a,b){return a<0&&b<0?' A negative divided by a negative gives a positive.':(a<0)!==(b<0)&&a!==0?' One negative sign makes the answer negative.':''}
+const coefOf=(c,val)=>`${c===1?'':c===-1?'−':num(c)}(${num(val)})`;
+
+/* ---------- elimination working, built for any a1x+b1y=c1, a2x+b2y=c2 ---------- */
+function elimSteps(a1,b1,c1,a2,b2,c2,x,y){
+  const elimY=lcm(b1,b2)<=lcm(a1,a2);
+  const p1=elimY?b1:a1,p2=elimY?b2:a2,L=lcm(p1,p2),m1=L/Math.abs(p1),m2=L/Math.abs(p2);
+  const v=elimY?'y':'x',o=elimY?'x':'y',s=[];
+  const A1=a1*m1,B1=b1*m1,C1=c1*m1,A2=a2*m2,B2=b2*m2,C2=c2*m2;
+  let n1='(1)',n2='(2)',k=3;
+  const goal=`We want to get rid of ${v}. ${m1===1&&m2===1?'':`To do that, both ${v} terms need the same number in front: ${L}${v}, the smallest number that ${Math.abs(p1)} and ${Math.abs(p2)} both go into. `}`;
+  const mulD=(m,a,b,c,A,B,C,p)=>`${goal}${tx(p,v)} × ${m} = ${tx(p*m,v)}. So multiply <b>every</b> term in the equation by ${m}, including the number on the right. Doing the same thing to both sides keeps it balanced.<br>${M_(`${txp(a,'x')} × ${m} = ${tx(A,'x')}`)}, &nbsp;${M_(`${txp(b,'y')} × ${m} = ${tx(B,'y')}`)}, &nbsp;${M_(`${par(c)} × ${m} = ${num(C)}`)}`;
+  if(m1!==1){s.push([`${eqxy(A1,B1,C1)}  (${k})`,`Multiply (1) by ${m1} so the ${v} terms match`,mulD(m1,a1,b1,c1,A1,B1,C1,p1)]);n1=`(${k++})`}
+  if(m2!==1){s.push([`${eqxy(A2,B2,C2)}  (${k})`,`Multiply (2) by ${m2} so the ${v} terms match`,mulD(m2,a2,b2,c2,A2,B2,C2,p2)]);n2=`(${k++})`}
+  const same=Math.sign(p1)===Math.sign(p2);
+  let RA,RB,RC,how,top=[A1,B1,C1],bot=[A2,B2,C2];
+  if(same){RA=A1-A2;RB=B1-B2;RC=C1-C2;how=`${n1} − ${n2}`;
+    if((elimY?RA:RB)<0){RA=-RA;RB=-RB;RC=-RC;how=`${n2} − ${n1}`;[top,bot]=[bot,top]}}
+  else{RA=A1+A2;RB=B1+B2;RC=C1+C2;how=`${n1} + ${n2}`}
+  const op=same?'−':'+';
+  const why=same?`Both ${v} terms are ${tx(elimY?top[1]:top[0],v)}, the same sign. Subtracting one from the other leaves 0, so ${v} disappears.`:`One ${v} term is positive and the other is negative. Adding them together makes 0, so ${v} disappears.`;
+  s.push([eqxy(RA,RB,RC),`${how}: ${same?'same signs, so subtract':'different signs, so add'}. The ${v} terms cancel`,
+    `${why} Line the equations up and ${same?'subtract':'add'} each column separately:<br>
+    ${M_(`x: ${tx(top[0],'x')} ${op} ${txp(bot[0],'x')} = ${tx(RA,'x')}`)}${elimY?'':' ← gone'}<br>
+    ${M_(`y: ${tx(top[1],'y')} ${op} ${txp(bot[1],'y')} = ${tx(RB,'y')}`)}${elimY?' ← gone':''}<br>
+    ${M_(`numbers: ${num(top[2])} ${op} ${par(bot[2])} = ${num(RC)}`)}<br>Now there is only one letter left, which is much easier.`]);
+  const coef=elimY?RA:RB,val=elimY?x:y;
+  if(coef!==1)s.push([`${o} = ${num(val)}`,`Divide both sides by ${num(coef)}`,`${M_(tx(coef,o))} means ${num(coef)} × ${o}. The opposite of multiplying is dividing, so divide both sides by ${num(coef)}: ${M_(`${num(RC)} ÷ ${par(coef)} = ${num(val)}`)}.${divTip(RC,coef)} That's ${o} found. Halfway there.`]);
+  const subD=(known,kv,coef2)=>`We now know ${known} = ${num(kv)}. Go back to equation (1) and swap the ${known} for ${num(kv)}. ${M_(tx(coef2,known))} means ${num(coef2)} × ${known}, so it becomes ${M_(`${num(coef2)} × ${par(kv)} = ${num(coef2*kv)}`)}.`;
+  const movD=(n,c,rest,letter)=>n===0?`That part is 0, so the ${letter} term is left on its own.`:`The ${num(n)} is on the same side as the ${letter}. Move it across by doing the opposite to both sides: ${M_(`${num(c)} ${n>0?'−':'+'} ${Math.abs(n)} = ${num(rest)}`)}.`;
+  if(elimY){const rest=c1-a1*x;
+    s.push([`${coefOf(a1,x)}${term(b1,'y',false)} = ${num(c1)}`,`Substitute x = ${num(x)} into (1)`,subD('x',x,a1)]);
+    s.push([`${term(b1,'y',true)} = ${num(rest)}`,a1*x?move(a1*x):'Tidy up',`Work out ${num(a1)} × ${par(x)} = ${num(a1*x)}. `+movD(a1*x,c1,rest,'y')]);
+    if(b1!==1)s.push([`y = ${num(y)}`,`Divide both sides by ${num(b1)}`,`${M_(tx(b1,'y'))} means ${num(b1)} × y, so divide both sides by ${num(b1)}: ${M_(`${num(rest)} ÷ ${par(b1)} = ${num(y)}`)}.${divTip(rest,b1)}`])}
+  else{const rest=c1-b1*y;
+    s.push([`${term(a1,'x',true)}${b1<0?' − ':' + '}${coefOf(Math.abs(b1),y)} = ${num(c1)}`,`Substitute y = ${num(y)} into (1)`,subD('y',y,b1)]);
+    s.push([`${term(a1,'x',true)} = ${num(rest)}`,b1*y?move(b1*y):'Tidy up',`Work out ${num(b1)} × ${par(y)} = ${num(b1*y)}. `+movD(b1*y,c1,rest,'x')]);
+    if(a1!==1)s.push([`x = ${num(x)}`,`Divide both sides by ${num(a1)}`,`${M_(tx(a1,'x'))} means ${num(a1)} × x, so divide both sides by ${num(a1)}: ${M_(`${num(rest)} ÷ ${par(a1)} = ${num(x)}`)}.${divTip(rest,a1)}`])}
+  s.push([`x = ${num(x)},  y = ${num(y)}`,`Check in (2): ${coefOf(a2,x)}${b2<0?' − ':' + '}${coefOf(Math.abs(b2),y)} = ${num(c2)} ✓`,
+    `Always check your answer in the equation you <b>didn't</b> substitute into. ${M_(`${num(a2)} × ${par(x)} = ${num(a2*x)}`)} and ${M_(`${num(b2)} × ${par(y)} = ${num(b2*y)}`)}. Together: ${M_(`${num(a2*x)} ${pm(b2*y)} = ${num(c2)}`)}. That matches the right-hand side of (2), so both equations work and the answer is right.`]);
+  return s}
+function mk(a1,b1,a2,b2,x,y){const c1=a1*x+b1*y,c2=a2*x+b2*y;
+  return{q:sys(eqxy(a1,b1,c1),eqxy(a2,b2,c2)),sols:[[x,y]],steps:elimSteps(a1,b1,c1,a2,b2,c2,x,y)}}
+const XY=()=>[nz(-4,12),nz(-4,12)];
+
+/* ---------- question generators (answers chosen first) ---------- */
+function genS1(){let a1,a2,b,b2,x,y;[x,y]=XY();
+  do{a1=R(1,7);a2=R(1,7);b=R(1,5);b2=b*sgn()}while(b2===b&&a1===a2);
+  return R(0,1)?mk(a1,b,a2,b2,x,y):mk(b,a1,b2,a2,x,y)}
+function genS2(){let a1,b1,a2,b2,x,y;[x,y]=XY();
+  do{b1=R(1,4);b2=b1*R(2,3)*sgn();a1=R(1,7);a2=R(1,8)*sgn()}while(a1*b2-a2*b1===0||lcm(a1,a2)<lcm(b1,b2));
+  return R(0,1)?mk(a1,b1,a2,b2,x,y):mk(b1,a1,b2,a2,x,y)}
+function genS3(){let a1,b1,a2,b2,x,y;[x,y]=XY();
+  do{a1=R(2,7);a2=R(2,7)*sgn();b1=R(2,7);b2=R(2,7)}while(gcd(a1,a2)!==1||gcd(b1,b2)!==1||a1*b2-a2*b1===0);
+  return mk(a1,b1,a2,b2,x,y)}
+function subSteps(m,k,a,b,x){const y=m*x+k,d=a*x+b*y,A=a+b*m,s=[];
+  s.push([`${term(a,'x',true)} ${b>0?'+':'−'} ${Math.abs(b)===1?'':Math.abs(b)}(${lin(m,k)}) = ${num(d)}`,`Substitute (1) into (2): replace y with ${lin(m,k)}`,
+    `Equation (1) tells us exactly what y is equal to: ${M_(lin(m,k))}. So wherever y appears in equation (2), we can swap it for ${M_(lin(m,k))}. Put it in a bracket, because the ${num(b)} in front of y has to multiply all of it. Now the equation only has x in it.`]);
+  s.push([`${term(a,'x',true)}${term(b*m,'x',false)}${term(b*k,'',false)} = ${num(d)}`,`Expand the bracket`,
+    `Multiply the ${num(b)} by each thing inside the bracket: ${M_(`${num(b)} × ${txp(m,'x')} = ${tx(b*m,'x')}`)} and ${M_(`${num(b)} × ${par(k)} = ${num(b*k)}`)}.${(b<0)?' Watch the signs: a negative times a negative is positive, a negative times a positive is negative.':''}`]);
+  s.push([`${lin(A,b*k)} = ${num(d)}`,`Collect the x terms`,`${M_(tx(a,'x'))} and ${M_(tx(b*m,'x'))} are both x terms, so combine them: ${M_(`${num(a)} ${pm(b*m)} = ${num(A)}`)}. That gives ${M_(tx(A,'x'))}.`]);
+  s.push([`${lin(A,0)} = ${num(d-b*k)}`,move(b*k),`The ${num(b*k)} is on the same side as the x. Move it by doing the opposite to both sides: ${M_(`${num(d)} ${b*k>0?'−':'+'} ${Math.abs(b*k)} = ${num(d-b*k)}`)}.`]);
+  if(A!==1)s.push([`x = ${num(x)}`,`Divide both sides by ${num(A)}`,`${M_(tx(A,'x'))} means ${num(A)} × x. Undo it by dividing both sides by ${num(A)}: ${M_(`${num(d-b*k)} ÷ ${par(A)} = ${num(x)}`)}.${divTip(d-b*k,A)}`]);
+  s.push([`y = ${coefOf(m,x)}${term(k,'',false)} = ${num(y)}`,`Substitute x = ${num(x)} into (1)`,`Now put x = ${num(x)} back into equation (1): ${M_(`${num(m)} × ${par(x)} = ${num(m*x)}`)}, then ${M_(`${num(m*x)} ${pm(k)} = ${num(y)}`)}. So y = ${num(y)}.`]);
+  s.push([`x = ${num(x)},  y = ${num(y)}`,`Check in (2)`,`Check in equation (2): ${M_(`${num(a)} × ${par(x)} ${b<0?'−':'+'} ${Math.abs(b)} × ${par(y)} = ${num(a*x)} ${pm(b*y)} = ${num(d)}`)}. It matches, so the answer is right.`]);
+  return{q:sys(`y = ${lin(m,k)}`,eqxy(a,b,d)),sols:[[x,y]],steps:s}}
+function genS4(){let m,k,a,b,x;
+  do{m=nz(-3,4);k=nz(-9,9);a=nz(-4,7);b=nz(-4,5);x=nz(-5,7)}while(a+b*m===0);
+  return subSteps(m,k,a,b,x)}
+function genS5(){const t=R(0,3);let a1,b1,a2,b2,x,y;
+  const pickCoef=()=>{do{a1=R(1,5);b1=R(1,5);a2=R(1,5);b2=R(1,5)}while(a1*b2-a2*b1===0)};
+  const fin=(text,vars,scale)=>{const c1=a1*x+b1*y,c2=a2*x+b2*y;
+    return{word:true,q:text(c1,c2),vars,scale,sols:[[x/scale,y/scale]],
+      steps:[[sys(eqxy(a1,b1,c1),eqxy(a2,b2,c2)),scale===100?'Let x and y be the prices in pence and write the two equations':'Write the two equations',`Turn each sentence into an equation. The number of each thing goes in front of its letter, and the total goes on the right of the = sign.${scale===100?' Money is easier in pence because there are no decimals: £'+(c1/100).toFixed(2)+' is '+c1+'p.':''}${a2===2&&b2===4?' Every animal has one head, so heads give x + y. Chickens have 2 legs and cows have 4, so legs give 2x + 4y.':''}`],...elimSteps(a1,b1,c1,a2,b2,c2,x,y)]}};
+  const gbp=p=>'£'+(p/100).toFixed(2);
+  if(t===0){pickCoef();x=R(15,40)*10;y=R(10,30)*10;
+    return fin((c1,c2)=>`At a café, ${a1} coffee${a1>1?'s':''} and ${b1} tea${b1>1?'s':''} cost ${gbp(c1)}. ${a2} coffee${a2>1?'s':''} and ${b2} tea${b2>1?'s':''} cost ${gbp(c2)}. Find the price of one coffee (x) and one tea (y) in pounds.`,['coffee £','tea £'],100)}
+  if(t===1){pickCoef();x=R(8,16);y=R(4,x-1);
+    return fin((c1,c2)=>`${a1} adult and ${b1} child cinema tickets cost £${c1}. ${a2} adult and ${b2} child tickets cost £${c2}. Find the price of an adult ticket (x) and a child ticket (y).`,['adult £','child £'],1)}
+  if(t===2){a1=1;b1=1;a2=1;b2=-1;y=R(2,40);x=y+R(1,30);
+    return fin((c1,c2)=>`Two numbers add up to ${c1}. Their difference is ${c2}. Find the larger number (x) and the smaller number (y).`,['larger','smaller'],1)}
+  a1=1;b1=1;a2=2;b2=4;x=R(3,40);y=R(2,30);
+  return fin((c1,c2)=>`A farmyard has chickens (x) and cows (y). There are ${c1} heads and ${c2} legs. How many of each animal are there?`,['chickens','cows'],1)}
+
+function genN1(){let p,q;p=nz(-6,6);do q=nz(-6,6);while(q===p);const m=nz(-4,4),k=R(-8,8),b=m-(p+q),c=k+p*q;
+  return{q:sys(`y = ${quad(1,b,c)}`,`y = ${lin(m,k)}`),sols:[[p,m*p+k],[q,m*q+k]],
+    steps:[[`${quad(1,b,c)} = ${lin(m,k)}`,`Both equal y, so set them equal`],[`${quad(1,b-m,c-k)} = 0`,`Move everything to one side`],
+      [fac(p,q),`Two numbers that multiply to ${num(p*q)} and add to ${num(-(p+q))}`],[`x = ${num(p)} or x = ${num(q)}`,`One bracket must be 0`],
+      [`y = ${num(m*p+k)} or y = ${num(m*q+k)}`,`Substitute each x into the line (2)`],[`(${num(p)}, ${num(m*p+k)}) and (${num(q)}, ${num(m*q+k)})`,`Keep each x with its own y`]]}}
+const CIRC=[25,50,65,85,100,169].map(r2=>{const pts=[];for(let x=-13;x<=13;x++)for(let y=-13;y<=13;y++)if(x*x+y*y===r2)pts.push([x,y]);return{r2,pts}});
+function genN2(){let C,P,Q,m,c;
+  for(;;){C=pick(CIRC);P=pick(C.pts);Q=pick(C.pts);if(P[0]===Q[0])continue;m=(Q[1]-P[1])/(Q[0]-P[0]);
+    if(!Number.isInteger(m)||m===0||Math.abs(m)>3)continue;c=P[1]-m*P[0];break}
+  const A=1+m*m,B=2*m*c,K=c*c-C.r2,[x1,y1]=P,[x2,y2]=Q;
+  const s=[[`x² + (${lin(m,c)})² = ${C.r2}`,`Substitute (1) into (2)`],
+    [`${quad(A,B,c*c)} = ${C.r2}`,`Expand (${lin(m,c)})² by multiplying the bracket by itself`],
+    [`${quad(A,B,K)} = 0`,`Subtract ${C.r2} from both sides`]];
+  if(A!==1)s.push([`${quad(1,B/A,K/A)} = 0`,`Divide everything by ${A}`]);
+  s.push([fac(x1,x2),`Factorise`],[`x = ${num(x1)} or x = ${num(x2)}`,`One bracket must be 0`],
+    [`y = ${num(y1)} or y = ${num(y2)}`,`Substitute each x into the line (1)`],[`(${num(x1)}, ${num(y1)}) and (${num(x2)}, ${num(y2)})`,`Two crossing points`]);
+  return{q:sys(`y = ${lin(m,c)}`,`x² + y² = ${C.r2}`),sols:[P,Q],steps:s}}
+function genN3(){let r1=nz(-6,9),r2;do r2=nz(-6,9);while(r2===r1);const S=r1+r2,P=r1*r2;
+  return{q:sys(`x + y = ${num(S)}`,`xy = ${num(P)}`),sols:[[r1,r2],[r2,r1]],
+    steps:[[`y = ${lin(-1,S)}`,`Rearrange (1) to make y the subject`],[`x(${lin(-1,S)}) = ${num(P)}`,`Substitute into (2)`],
+      [`${quad(-1,S,0)} = ${num(P)}`,`Expand the bracket`],[`${quad(1,-S,P)} = 0`,`Rearrange so x² is positive and it equals 0`],
+      [fac(r1,r2),`Two numbers that multiply to ${num(P)} and add to ${num(-S)}`],
+      [`x = ${num(r1)}, y = ${num(r2)}  or  x = ${num(r2)}, y = ${num(r1)}`,`Use y = ${lin(-1,S)} for each x`]]}}
+
+/* ---------- topics ---------- */
+const W=rows=>`<div class="work">${rows.map(r=>`<div class="s"><span>${r[0]}</span><span>${r[1]||''}</span>${r[2]?`<div class="d">${r[2]}</div>`:''}</div>`).join('')}</div>`;
+const LBL=(e1,e2)=>[sys(e1,e2),'Label them (1) and (2)','Give each equation a number so we can talk about it: “equation (1)” and “equation (2)”.'];
+const TOPICS=[
+ {id:'s0',track:'lin',lessonOnly:true,name:'Start here: the basics',eq:'What do x, y and “simultaneous” mean?',
+  lesson:`<h3>1. Letters are just hidden numbers</h3>
+  <p>In maths, a letter like <span class="math">x</span> or <span class="math">y</span> stands for a number we don't know yet. Our job is to find it.</p>
+  <div class="vocab"><div><b class="math">3x</b><br>means 3 × x. If x is 5, then 3x is 15.</div><div><b class="math">x</b><br>on its own means 1 × x. The 1 is invisible.</div><div><b class="math">−y</b><br>means −1 × y.</div><div><b class="math">2y</b><br>means 2 × y. If y is 6, then 2y is 12.</div></div>
+  <h3>2. An equation is a balance</h3>
+  <p>The <span class="math">=</span> sign means both sides are worth exactly the same. Picture old-fashioned weighing scales. If you add, take away, multiply or divide, you <span class="hl">must do it to both sides</span>, or the scales tip and the equation stops being true.</p>
+  <div class="rule"><b>Golden rule:</b> whatever you do to one side, do to the other side, and to every single term.</div>
+  <h3>3. One equation with two letters isn't enough</h3>
+  <p>Take <span class="math">x + y = 10</span>. Lots of pairs work: 1 and 9, 2 and 8, 6 and 4, and so on. One equation can't tell us which pair is the right one.</p>
+  <h3>4. A second equation pins it down</h3>
+  <p>Now add a second clue: <span class="math">x − y = 2</span>. Which pair works for <b>both</b>?</p>
+  <div class="tablebox"><table class="try"><tr><th>x</th><th>y</th><th>x + y = 10?</th><th>x − y = 2?</th></tr>
+  <tr><td>9</td><td>1</td><td>✓</td><td>✗ (8)</td></tr><tr><td>7</td><td>3</td><td>✓</td><td>✗ (4)</td></tr>
+  <tr class="yes"><td>6</td><td>4</td><td>✓</td><td>✓</td></tr><tr><td>5</td><td>5</td><td>✓</td><td>✗ (0)</td></tr></table></div>
+  <p>Only <b>x = 6, y = 4</b> works in both. That's what <span class="hl">simultaneous</span> means: true at the same time. Guessing is slow, though, so we use methods.</p>
+  <h3>5. The big idea behind every method</h3>
+  <p>Two letters are hard. One letter is easy. So every method does the same thing: <b>get rid of one letter</b>, solve for the other, then go back for the first.</p>
+  <div class="rule"><b>Elimination:</b> add or subtract the two equations so one letter cancels out.<br><b>Substitution:</b> swap one letter for what it equals.</div>
+  <h3>6. Negative number rules you'll need</h3>
+  <div class="vocab"><div><b class="math">5 − (−3) = 8</b><br>Taking away a negative is the same as adding.</div><div><b class="math">−2 × −3 = 6</b><br>Negative times negative is positive.</div><div><b class="math">−2 × 3 = −6</b><br>One negative makes it negative.</div><div><b class="math">−12 ÷ 4 = −3</b><br>Division follows the same sign rules.</div></div>
+  <h3>7. Words you'll see</h3>
+  <div class="vocab"><div><b>Term</b><br>One chunk of an equation, like 3x, −2y or 36.</div><div><b>Coefficient</b><br>The number in front of a letter. In 3x it's 3.</div><div><b>Eliminate</b><br>Make a letter disappear.</div><div><b>Substitute</b><br>Swap a letter for its value.</div></div>`},
+ {id:'s1',track:'lin',name:'Elimination: matching terms',eq:'2x + y = 11   ·   3x − y = 9',gen:genS1,
+  lesson:`<p>Here we have two equations and two unknowns. We'll make one letter vanish by adding the two equations together.</p>
+  <p>This works straight away when a letter has the <b>same number in front of it</b> in both equations. Below, it's <span class="math">+y</span> and <span class="math">−y</span>.</p>
+  <div class="rule"><b>Same signs subtract. Different signs add.</b><br>+y and −y have different signs, so add: y + (−y) = 0.<br>+2y and +2y have the same sign, so subtract: 2y − 2y = 0.</div>
+  <h3>Worked example, every step explained</h3>${W([LBL('2x + y = 11','3x − y = 9'),...elimSteps(2,1,11,3,-1,9,4,3)])}`},
+ {id:'s2',track:'lin',name:'Elimination: multiply one',eq:'3x + 2y = 36   ·   5x + 4y = 64',gen:genS2,
+  lesson:`<p>Usually the numbers in front of the letters don't match yet. So we multiply one whole equation to make them match, then eliminate as before.</p>
+  <div class="rule"><b>Spot the easy match.</b> Here 2y and 4y: 2 × 2 = 4, so doubling equation (1) turns 2y into 4y.<br><b>Don't forget</b> to multiply the number on the right too.</div>
+  <h3>Worked example, every step explained</h3>${W([LBL('3x + 2y = 36','5x + 4y = 64'),...elimSteps(3,2,36,5,4,64,8,6)])}`},
+ {id:'s3',track:'lin',name:'Elimination: multiply both',eq:'3x + 4y = 25   ·   2x + 3y = 18',gen:genS3,
+  lesson:`<p>Sometimes neither number goes into the other, like 4y and 3y. Then we multiply <span class="hl">both</span> equations so they meet at a common number.</p>
+  <div class="rule"><b>How to find the target:</b> list the times tables until they meet. 4, 8, <b>12</b> and 3, 6, 9, <b>12</b>. So aim for 12y: multiply (1) by 3 and (2) by 4.<br>Pick whichever letter gives the smaller target.</div>
+  <h3>Worked example, every step explained</h3>${W([LBL('3x + 4y = 25','2x + 3y = 18'),...elimSteps(3,4,25,2,3,18,3,4)])}`},
+ {id:'s4',track:'lin',name:'Substitution',eq:'y = 2x − 1   ·   3x + 2y = 19',gen:genS4,
+  lesson:`<p>Sometimes one equation already tells you what y is, like <span class="math">y = 2x − 1</span>. Then you can swap that straight into the other equation. That's called substitution.</p>
+  <div class="rule"><b>Always use a bracket</b> when you swap something in. 2y becomes 2(2x − 1), and the 2 multiplies both parts.</div>
+  <h3>Worked example, every step explained</h3>${W([LBL('y = 2x − 1','3x + 2y = 19'),...subSteps(2,-1,3,2,3).steps])}`},
+ {id:'s5',track:'lin',name:'Word problems',eq:'“3 coffees and 2 teas cost £9.80…”',gen:genS5,
+  lesson:`<p>Questions often hide simultaneous equations inside a story. There are only three jobs: pick a letter for each unknown, turn each sentence into an equation, then solve it with elimination like before.</p>
+  <div class="rule"><b>Money tip:</b> work in pence to avoid decimals, then turn it back into pounds at the end. £9.80 is 980p.</div>
+  <h3>Worked example</h3><p>3 coffees and 2 teas cost £9.80. 2 coffees and 3 teas cost £9.20. How much is one coffee and one tea?</p>
+  ${W([[sys('3x + 2y = 980','2x + 3y = 920'),'x = coffee, y = tea, in pence','Let x be the price of one coffee and y the price of one tea. “3 coffees and 2 teas cost 980p” becomes 3x + 2y = 980. The second sentence becomes 2x + 3y = 920.'],...elimSteps(3,2,980,2,3,920,220,160),['Coffee £2.20, tea £1.60','Answer in words','Turn the pence back into pounds by dividing by 100, and write the answer as a sentence that answers the question.']])}
+  <p class="muted">You can type money answers as 2.20 or as 220 (pence).</p>`},
+ {id:'n1',track:'nl',name:'Line meets a curve',eq:'y = x² − 3x + 4   ·   y = x + 1',gen:genN1,
+  lesson:`<p>In a non-linear system, one equation has a squared term (or <span class="math">xy</span>). Graphically, a straight line crosses a curve, usually at <span class="hl">two points</span>, so there are usually two pairs of answers.</p>
+  <div class="rule"><b>Method:</b> both equations say y = …, so set them equal. You get a quadratic: solve it, then find y for each x.</div>
+  <h3>Worked example</h3>${W([[sys('y = x² − 3x + 4','y = x + 1'),''],['x² − 3x + 4 = x + 1','Set equal'],['x² − 4x + 3 = 0','Rearrange to = 0'],['(x − 1)(x − 3) = 0','Factorise'],['x = 1 or x = 3',''],['y = 2 or y = 4','Use y = x + 1'],['(1, 2) and (3, 4)','Pair each x with its own y']])}`},
+ {id:'n2',track:'nl',name:'Line meets a circle',eq:'x² + y² = 25   ·   y = x + 1',gen:genN2,
+  lesson:`<p><span class="math">x² + y² = r²</span> is a circle of radius r centred on (0, 0). Substitute the line into the circle to get a quadratic in x.</p>
+  <div class="rule"><b>Square the whole bracket.</b> (x + 1)² = (x + 1)(x + 1) = x² + 2x + 1, not x² + 1.</div>
+  <h3>Worked example</h3>${W([[sys('y = x + 1','x² + y² = 25'),''],['x² + (x + 1)² = 25','Substitute (1) into (2)'],['2x² + 2x + 1 = 25','Expand'],['2x² + 2x − 24 = 0','Subtract 25'],['x² + x − 12 = 0','Divide by 2'],['(x + 4)(x − 3) = 0','Factorise'],['(3, 4) and (−4, −3)','y = x + 1 for each']])}`},
+ {id:'n3',track:'nl',name:'Sum and product',eq:'x + y = 7   ·   xy = 12',gen:genN3,
+  lesson:`<p>When one equation is <span class="math">xy = …</span>, rearrange the linear one to make y the subject, then substitute. You get a quadratic in x.</p>
+  <div class="rule"><b>Answers often swap round.</b> If (3, 4) works, (4, 3) usually does too. Give both pairs.</div>
+  <h3>Worked example</h3>${W([[sys('x + y = 7','xy = 12'),''],['y = 7 − x','Rearrange (1)'],['x(7 − x) = 12','Substitute into (2)'],['7x − x² = 12','Expand'],['x² − 7x + 12 = 0','Rearrange'],['(x − 3)(x − 4) = 0','Factorise'],['(3, 4) and (4, 3)','y = 7 − x']])}`},
+];
+const T=id=>TOPICS.find(t=>t.id===id);
+const LIN=TOPICS.filter(t=>t.track==='lin'&&!t.lessonOnly),NL=TOPICS.filter(t=>t.track==='nl');
+
+
+/* ================= GEOMETRY ================= */
+const rad=d=>d*Math.PI/180,deg=r=>r*180/Math.PI;
+const dp4=v=>num(+v.toFixed(4));
+const clean1=v=>Math.abs(v*10-Math.round(v*10))<1e-9;
+const d1=v=>{const r=Math.round(v*10)/10;return num(+r.toFixed(1))};
+function fracParts(v){for(let d=1;d<=12;d++){const n=v*d;if(Math.abs(n-Math.round(n))<1e-9)return[Math.round(n),d]}return[v,1]}
+function nice(v){const[n,d]=fracParts(v);if(d===1)return num(n);if([2,4,5,10].includes(d)||Math.abs(n)>99)return num(+v.toFixed(3));return`${num(n)}/${d}`}
+const mF=v=>{const[n,d]=fracParts(v);return d===1?num(n):(n<0?'−':'')+frac(Math.abs(n),d)};
+function lineStr(m,c){let s='y = ';if(m===0)return s+num(c);s+=m===1?'':m===-1?'−':mF(m);s+='x';if(c)s+=(c>0?' + ':' − ')+mF(Math.abs(c));return s}
+const pt=(x,y)=>`(${nice(x)}, ${nice(y)})`;
+function roundStep(v,name,unit){const s=Math.abs(v).toFixed(4),i=s.indexOf('.'),dig=+s[i+2];
+  return[`${name} = ${d1(v)}${unit}`,'Round to 1 decimal place',`Your calculator shows ${dp4(v)}… To round to 1 decimal place, look at the <b>second</b> digit after the point: it’s ${dig}. ${dig>=5?'That’s 5 or more, so the first digit after the point goes up by one.':'That’s less than 5, so the first digit after the point stays the same.'}`]}
+function finalStep(v,name,unit){return clean1(v)?[`${name} = ${nice(v)}${unit}`,'That’s the answer','It comes out exactly, so there’s nothing to round.']:roundStep(v,name,unit)}
+function G(q,fig,fields,ans,dp,steps,extra={}){
+  return Object.assign({word:true,geo:true,label:'Find',q,fig,fields,sols:[Array.isArray(ans)?ans:[ans]],dp,tol:dp===1?0.06:dp==='grad'?0.006:1e-6,steps},extra)}
+
+/* ---------- diagrams ---------- */
+const lbl=(x,y,s,sm,an='middle')=>{s=String(s);const hl=s[0]==='?';if(hl)s=s.slice(1);return`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="${an}" dominant-baseline="central" class="lb${hl?' hl':''}${sm?' sm':''}">${s}</text>`};
+const svgWrap=(g,W,H,note)=>`<figure class="fig"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Diagram">${g}</svg>${note?`<figcaption>${note}</figcaption>`:''}</figure>`;
+function fitPts(P,W,H,m){const xs=P.map(p=>p[0]),ys=P.map(p=>p[1]);const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
+  const s=Math.min((W-2*m)/((x1-x0)||1),(H-2*m)/((y1-y0)||1));const ox=(W-(x1-x0)*s)/2,oy=(H-(y1-y0)*s)/2;
+  return P.map(([x,y])=>[ox+(x-x0)*s,H-oy-(y-y0)*s])}
+const unit=(a,b)=>{const dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy);return[dx/L,dy/L]};
+function triSVG(P,o={}){const W=300,H=230,Q=fitPts(P,W,H,46);const cx=(Q[0][0]+Q[1][0]+Q[2][0])/3,cy=(Q[0][1]+Q[1][1]+Q[2][1])/3;
+  let g=`<polygon class="sh" points="${Q.map(p=>p.map(v=>v.toFixed(1)).join(',')).join(' ')}"/>`;
+  if(o.right!=null){const v=Q[o.right],ua=unit(v,Q[(o.right+1)%3]),ub=unit(v,Q[(o.right+2)%3]),k=13;
+    g+=`<path class="ln thin" d="M${v[0]+ua[0]*k},${v[1]+ua[1]*k} L${v[0]+(ua[0]+ub[0])*k},${v[1]+(ua[1]+ub[1])*k} L${v[0]+ub[0]*k},${v[1]+ub[1]*k}"/>`}
+  (o.ticks||[]).forEach(i=>{const a=Q[i],b=Q[(i+1)%3],mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2,[ux,uy]=unit(a,b);g+=`<line class="ln thin" x1="${mx-uy*7}" y1="${my+ux*7}" x2="${mx+uy*7}" y2="${my-ux*7}"/>`});
+  (o.sides||[]).forEach((s,i)=>{if(!s)return;const a=Q[i],b=Q[(i+1)%3],mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2,[ux,uy]=unit(a,b);let nx=-uy,ny=ux;if((mx-cx)*nx+(my-cy)*ny<0){nx=-nx;ny=-ny}
+    g+=lbl(mx+nx*(Math.abs(ny)>.5?20:12),my+ny*(Math.abs(ny)>.5?20:12),s,false,nx>.5?'start':nx<-.5?'end':'middle')});
+  (o.angles||[]).forEach((s,i)=>{if(!s)return;const v=Q[i],u1=unit(v,Q[(i+1)%3]),u2=unit(v,Q[(i+2)%3]),r=20;
+    const cr=u1[0]*u2[1]-u1[1]*u2[0];g+=`<path class="arc" d="M${v[0]+u1[0]*r},${v[1]+u1[1]*r} A${r} ${r} 0 0 ${cr>0?1:0} ${v[0]+u2[0]*r},${v[1]+u2[1]*r}"/>`;
+    let bx=u1[0]+u2[0],by=u1[1]+u2[1];const L=Math.hypot(bx,by)||1;const ang=Math.acos(Math.max(-1,Math.min(1,u1[0]*u2[0]+u1[1]*u2[1])));const d=ang<0.7?46:ang<1.1?38:32;
+    g+=lbl(v[0]+bx/L*d,v[1]+by/L*d,s,true)});
+  (o.verts||[]).forEach((s,i)=>{if(!s)return;const v=Q[i],[ux,uy]=unit([cx,cy],v);g+=lbl(v[0]+ux*16,v[1]+uy*16,s,true)});
+  const xs=Q.map(p=>p[0]),ys=Q.map(p=>p[1]),vx=Math.min(...xs)-72,vy=Math.min(...ys)-38,vw=Math.max(...xs)+72-vx,vh=Math.max(...ys)+38-vy;
+  return`<figure class="fig"><svg viewBox="${vx.toFixed(0)} ${vy.toFixed(0)} ${vw.toFixed(0)} ${vh.toFixed(0)}" role="img" aria-label="Diagram">${g}</svg>${o.note?`<figcaption>${o.note}</figcaption>`:''}</figure>`}
+function triFromAngles(A,B){const C=180-A-B,b=Math.sin(rad(B))/Math.sin(rad(C));return[[0,0],[1,0],[b*Math.cos(rad(A)),b*Math.sin(rad(A))]]}
+const triABC=(A,b,c)=>[[0,0],[c,0],[b*Math.cos(rad(A)),b*Math.sin(rad(A))]];
+function raysSVG(parts,full){const W=300,H=full?240:170,cx=150,cy=full?120:140,Rr=full?100:120;let g='';let acc=full?15:0;
+  if(!full)g+=`<line class="ln" x1="16" y1="${cy}" x2="284" y2="${cy}"/>`;
+  parts.forEach((p,i)=>{if(full||i>0){const a=rad(acc);g+=`<line class="ln" x1="${cx}" y1="${cy}" x2="${(cx+Rr*Math.cos(a)).toFixed(1)}" y2="${(cy-Rr*Math.sin(a)).toFixed(1)}"/>`}
+    const mid=rad(acc+p.v/2),r=p.v<35?66:48;g+=lbl(cx+r*Math.cos(mid),cy-r*Math.sin(mid),p.s,true);acc+=p.v});
+  g+=`<circle class="pt" cx="${cx}" cy="${cy}" r="3.5"/>`;return svgWrap(g,W,H)}
+function quadSVG(lab){const Q=[[50,180],[262,190],[230,60],[78,40]],cx=155,cy=118;let g=`<polygon class="sh" points="${Q.map(p=>p.join(',')).join(' ')}"/>`;
+  Q.forEach((v,i)=>{const[ux,uy]=unit(v,[cx,cy]);g+=lbl(v[0]+ux*34,v[1]+uy*34,lab[i],true)});return svgWrap(g,300,230,'Not drawn to scale')}
+function rectSVG(l,w,ll,wl){const s=Math.min(200/l,120/w),W=l*s,H=w*s,x=(300-W)/2,y=(190-H)/2;
+  return svgWrap(`<rect class="sh" x="${x}" y="${y}" width="${W}" height="${H}"/>${lbl(150,y+H+16,ll)}${lbl(x-26,y+H/2,wl)}`,300,200)}
+function triAreaSVG(b,h,off,bl,hl){const s=Math.min(210/b,130/h),bw=b*s,hh=h*s,x0=(300-bw)/2,yb=(200+hh)/2+4,ax=x0+bw*off,ay=yb-hh;
+  return svgWrap(`<polygon class="sh" points="${x0},${yb} ${x0+bw},${yb} ${ax},${ay}"/><line class="dash" x1="${ax}" y1="${ay}" x2="${ax}" y2="${yb}"/><path class="ln thin" d="M${ax+10},${yb} L${ax+10},${yb-10} L${ax},${yb-10}"/>${lbl(150,yb+16,bl)}${lbl(ax-24,(ay+yb)/2,hl)}`,300,210)}
+function circSVG(isD,lab){const cx=150,cy=110,r=80;return svgWrap(`<circle class="sh" cx="${cx}" cy="${cy}" r="${r}"/><circle class="pt" cx="${cx}" cy="${cy}" r="3.5"/><line class="ln" x1="${isD?cx-r:cx}" y1="${cy}" x2="${cx+r}" y2="${cy}"/>${lbl(isD?cx:cx+r/2,cy-14,lab)}`,300,220)}
+function trapSVG(a,b,h,al,bl,hl){const s=Math.min(220/b,120/h),bw=b*s,aw=a*s,hh=h*s,x0=(300-bw)/2,yb=(200+hh)/2,yt=yb-hh,xt=x0+(bw-aw)*0.35;
+  return svgWrap(`<polygon class="sh" points="${x0},${yb} ${x0+bw},${yb} ${xt+aw},${yt} ${xt},${yt}"/><line class="dash" x1="${xt}" y1="${yt}" x2="${xt}" y2="${yb}"/>${lbl(xt+aw/2,yt-14,al)}${lbl(x0+bw/2,yb+16,bl)}${lbl(xt+18,(yt+yb)/2,hl)}`,300,215)}
+function gridSVG(P,o={}){const Rg=Math.max(6,...P.flatMap(p=>[Math.abs(p.x),Math.abs(p.y)]))+1,W=280,m=16,s=(W-2*m)/(2*Rg),X=x=>m+(x+Rg)*s,Y=y=>m+(Rg-y)*s;let g='';
+  for(let i=-Rg;i<=Rg;i++)g+=`<line class="gr" x1="${X(i)}" y1="${m}" x2="${X(i)}" y2="${W-m}"/><line class="gr" x1="${m}" y1="${Y(i)}" x2="${W-m}" y2="${Y(i)}"/>`;
+  g+=`<line class="ax" x1="${m}" y1="${Y(0)}" x2="${W-m}" y2="${Y(0)}"/><line class="ax" x1="${X(0)}" y1="${m}" x2="${X(0)}" y2="${W-m}"/>`;
+  g+=`<text class="lb sm mu" x="${W-m-6}" y="${Y(0)-9}" text-anchor="end">x</text><text class="lb sm mu" x="${X(0)+9}" y="${m+8}">y</text>`;
+  [-5,5].forEach(v=>{if(v>=-Rg&&v<=Rg)g+=`<text class="lb xs mu" x="${X(v)}" y="${Y(0)+12}" text-anchor="middle">${num(v)}</text><text class="lb xs mu" x="${X(0)-5}" y="${Y(v)+4}" text-anchor="end">${num(v)}</text>`});
+  if(o.legs&&P.length>1)g+=`<path class="dash" d="M${X(P[0].x)},${Y(P[0].y)} L${X(P[1].x)},${Y(P[0].y)} L${X(P[1].x)},${Y(P[1].y)}"/>`;
+  if(o.seg&&P.length>1)g+=`<line class="ln acc" x1="${X(P[0].x)}" y1="${Y(P[0].y)}" x2="${X(P[1].x)}" y2="${Y(P[1].y)}"/>`;
+  if(o.circle)g+=`<circle class="ln acc" style="fill:none" cx="${X(o.circle.a)}" cy="${Y(o.circle.b)}" r="${o.circle.r*s}"/>`;
+  P.forEach(p=>{const right=X(p.x)>W-90;g+=`<circle class="pt" cx="${X(p.x)}" cy="${Y(p.y)}" r="4.5"/><text class="lb sm" x="${X(p.x)+(right?-8:8)}" y="${Y(p.y)-11}" text-anchor="${right?'end':'start'}">${p.s}</text>`});
+  return svgWrap(g,W,W)}
+
+/* ---------- angles ---------- */
+const AF=[{l:'x',u:'°'}];
+function angTri(A,B){const C=180-A-B;
+  return G(`Two angles in a triangle are ${A}° and ${B}°. Find the missing angle x.`,triSVG(triFromAngles(A,B),{angles:[A+'°',B+'°','?x']}),AF,C,0,[
+    [`${A}° + ${B}° + x = 180°`,'Angles in a triangle add up to 180°','Every triangle’s three inside angles add up to exactly 180°, whatever its shape or size. Write that as an equation, using x for the angle you don’t know.'],
+    [`${A+B}° + x = 180°`,'Add the two angles you know',`${M_(`${A} + ${B} = ${A+B}`)}.`],
+    [`x = ${C}°`,`Subtract ${A+B} from 180`,`x is whatever is left over: ${M_(`180 − ${A+B} = ${C}`)}. Quick check: ${M_(`${A} + ${B} + ${C} = 180`)} ✓`]])}
+function angRays(known,full){const T0=full?360:180,S=known.reduce((a,b)=>a+b,0),x=T0-S,parts=known.map(v=>({v,s:v+'°'}));parts.splice(R(0,parts.length),0,{v:x,s:'?x'});
+  const rule=full?['Angles around a point add up to 360°','A full turn, all the way round a point, is 360°. So all the angles that meet at a point and fill the whole way round add up to 360°.']:['Angles on a straight line add up to 180°','A straight line is half of a full turn. A full turn is 360°, so half a turn is 180°. All the angles sitting along one side of a straight line add up to 180°.'];
+  const steps=[[`${known.map(v=>v+'°').join(' + ')} + x = ${T0}°`,...rule]];
+  if(known.length>1)steps.push([`${S}° + x = ${T0}°`,'Add the angles you know',M_(`${known.join(' + ')} = ${S}`)+'.']);
+  steps.push([`x = ${x}°`,`Subtract ${S} from ${T0}`,`${M_(`${T0} − ${S} = ${x}`)}. Check: ${M_(`${known.join(' + ')} + ${x} = ${T0}`)} ✓`]);
+  return G(`The angles ${full?'around a point':'on a straight line'} are ${known.map(v=>v+'°').join(', ')} and x. Find x.`,raysSVG(parts,full),AF,x,0,steps)}
+function angIso(mode,v){const base=mode==='apex'?(180-v)/2:v,apex=180-2*base;const tri=triFromAngles(base,base);
+  if(mode==='apex')return G(`An isosceles triangle has a top angle of ${apex}°. The sides with dashes are equal. Find one of the base angles, x.`,triSVG(tri,{angles:['?x','x',apex+'°'],ticks:[1,2]}),AF,base,0,[
+    [`x + x + ${apex}° = 180°`,'Both base angles are x','An isosceles triangle has two sides the same length (marked with little dashes). The two angles at the bottom of those sides are equal too, so both are x. All three angles still add up to 180°.'],
+    [`2x + ${apex}° = 180°`,'x + x is 2x','Two lots of x make 2x.'],
+    [`2x = ${180-apex}°`,`Subtract ${apex} from both sides`,M_(`180 − ${apex} = ${180-apex}`)+'.'],
+    [`x = ${base}°`,'Divide both sides by 2',`2x means 2 × x, so halve it: ${M_(`${180-apex} ÷ 2 = ${base}`)}. Check: ${M_(`${base} + ${base} + ${apex} = 180`)} ✓`]]);
+  return G(`An isosceles triangle has a base angle of ${base}°. The sides with dashes are equal. Find the top angle x.`,triSVG(tri,{angles:[base+'°','','?x'],ticks:[1,2]}),AF,apex,0,[
+    [`${base}° + ${base}° + x = 180°`,'The two base angles are equal','The dashed sides are equal, so the two angles at the bottom of them are equal. The unlabelled base angle is also '+base+'°. All three angles add up to 180°.'],
+    [`${2*base}° + x = 180°`,'Add the two base angles',M_(`${base} + ${base} = ${2*base}`)+'.'],
+    [`x = ${apex}°`,`Subtract ${2*base} from 180`,M_(`180 − ${2*base} = ${apex}`)+'.']])}
+function angQuad(a,b,c){const x=360-a-b-c,lab=[a+'°',b+'°',c+'°','?x'];
+  return G(`A four-sided shape (quadrilateral) has angles ${a}°, ${b}° and ${c}°. Find the fourth angle x.`,quadSVG(lab),AF,x,0,[
+    [`${a}° + ${b}° + ${c}° + x = 360°`,'Angles in a quadrilateral add up to 360°','Draw a line from one corner to the opposite corner and the shape splits into two triangles. Each triangle has 180°, so the four angles add up to 2 × 180° = 360°.'],
+    [`${a+b+c}° + x = 360°`,'Add the three you know',M_(`${a} + ${b} + ${c} = ${a+b+c}`)+'.'],
+    [`x = ${x}°`,`Subtract ${a+b+c} from 360`,M_(`360 − ${a+b+c} = ${x}`)+'.']])}
+function genGA(){const t=R(0,4);
+  if(t===0){let A,B;do{A=R(25,110);B=R(25,110)}while(180-A-B<20);return angTri(A,B)}
+  if(t===1){const n=R(1,2);let k;do{k=Array.from({length:n},()=>R(28,100))}while(180-k.reduce((a,b)=>a+b,0)<28);return angRays(k,false)}
+  if(t===2){let k;do{k=Array.from({length:3},()=>R(40,140))}while(360-k.reduce((a,b)=>a+b,0)<35);return angRays(k,true)}
+  if(t===3)return R(0,1)?angIso('apex',2*R(15,60)):angIso('base',R(35,80));
+  let a,b,c;do{a=R(60,130);b=R(60,130);c=R(60,130)}while(360-a-b-c<55||360-a-b-c>150);return angQuad(a,b,c)}
+
+/* ---------- area & perimeter ---------- */
+const LF=(l,u)=>[{l,u}];
+function arRect(l,w,kind){if(kind==='area')return G(`A rectangle is ${l} cm long and ${w} cm wide. Find its area.`,rectSVG(l,w,l+' cm',w+' cm'),LF('Area',' cm²'),l*w,0,[
+    ['Area = length × width','Area of a rectangle','Area is how much flat space is inside a shape, counted in little squares. A rectangle that is l long and w wide has w rows with l squares in each, so you multiply.'],
+    [`Area = ${l} × ${w}`,'Put in the numbers',''],
+    [`Area = ${l*w} cm²`,'Multiply',`${M_(`${l} × ${w} = ${l*w}`)}. The units are cm² (square centimetres) because we multiplied cm by cm.`]]);
+  return G(`A rectangle is ${l} cm long and ${w} cm wide. Find its perimeter.`,rectSVG(l,w,l+' cm',w+' cm'),LF('Perimeter',' cm'),2*(l+w),0,[
+    ['Perimeter = 2 × (length + width)','Perimeter of a rectangle','Perimeter is the distance all the way round the outside edge, like a fence. A rectangle has two lengths and two widths, so add one of each and double it.'],
+    [`Perimeter = 2 × (${l} + ${w})`,'Put in the numbers',''],
+    [`Perimeter = 2 × ${l+w}`,'Brackets first',M_(`${l} + ${w} = ${l+w}`)+'.'],
+    [`Perimeter = ${2*(l+w)} cm`,'Double it','The units are plain cm, because perimeter is a length, not an area.']])}
+function arTri(b,h,off){const A=b*h/2;return G(`A triangle has a base of ${b} cm and a height of ${h} cm. Find its area.`,triAreaSVG(b,h,off,b+' cm',h+' cm'),LF('Area',' cm²'),A,0,[
+  ['Area = ½ × base × height','Area of a triangle','A triangle is exactly half of a rectangle with the same base and height. That’s where the ½ comes from. The height must go straight up from the base at a right angle (the dashed line), not along a sloping side.'],
+  [`Area = ½ × ${b} × ${h}`,'Put in the numbers',''],
+  [`Area = ½ × ${b*h}`,'Multiply base by height',M_(`${b} × ${h} = ${b*h}`)+'.'],
+  [`Area = ${nice(A)} cm²`,'Halve it',`Half of ${b*h} is ${nice(A)}.`]])}
+function arCirc(val,isD,kind){const r=isD?val/2:val,A=Math.PI*r*r,C=2*Math.PI*r;const fig=circSVG(isD,val+' cm');const half=isD?[[`r = ${val} ÷ 2 = ${r} cm`,'Halve the diameter first','The diameter goes all the way across, through the centre. The radius is only half of it. Using the diameter by mistake is the most common slip here.']]:[];
+  if(kind==='area')return G(`A circle has a ${isD?'diameter':'radius'} of ${val} cm. Find its area, to 1 decimal place.`,fig,LF('Area',' cm²'),A,1,[
+    ['Area = π × r²','Area of a circle','π (say “pie”) is a special number, about 3.14159… Use the π button on your calculator. r is the radius: the distance from the centre to the edge. r² means r × r.'],...half,
+    [`Area = π × ${r}²`,'Put in the radius',''],
+    [`Area = π × ${r*r}`,'Square the radius first',`${M_(`${r} × ${r} = ${r*r}`)}. Do the squaring before multiplying by π.`],
+    [`Area = ${dp4(A)}…`,'Multiply by π',`Type ${M_(`π × ${r*r}`)} into your calculator.`],roundStep(A,'Area',' cm²')]);
+  return G(`A circle has a ${isD?'diameter':'radius'} of ${val} cm. Find its circumference (the distance round the edge), to 1 decimal place.`,fig,LF('Circumference',' cm'),C,1,[
+    ['C = 2 × π × r','Circumference of a circle','The circumference is the perimeter of a circle. It is always a bit more than 3 times the distance across. π (about 3.14159…) is exactly how many times more. 2 × r is the diameter, so this is the same as π × diameter.'],...half,
+    [`C = 2 × π × ${r}`,'Put in the radius',''],
+    [`C = ${dp4(C)}…`,'Use your calculator',`${M_(`2 × π × ${r}`)}, using the π button.`],roundStep(C,'C',' cm')])}
+function arTrap(a,b,h){const A=(a+b)*h/2;return G(`A trapezium has parallel sides of ${a} cm and ${b} cm, and a height of ${h} cm. Find its area.`,trapSVG(a,b,h,a+' cm',b+' cm',h+' cm'),LF('Area',' cm²'),A,0,[
+  ['Area = ½ × (a + b) × h','Area of a trapezium','A trapezium has one pair of parallel sides, a and b (top and bottom). Add them, multiply by the height, then halve. It works because two copies of the trapezium fit together to make a parallelogram.'],
+  [`Area = ½ × (${a} + ${b}) × ${h}`,'Put in the numbers',''],
+  [`Area = ½ × ${a+b} × ${h}`,'Brackets first',M_(`${a} + ${b} = ${a+b}`)+'.'],
+  [`Area = ½ × ${(a+b)*h}`,'Multiply by the height',M_(`${a+b} × ${h} = ${(a+b)*h}`)+'.'],
+  [`Area = ${nice(A)} cm²`,'Halve it','']])}
+function genGB(){const t=R(0,3);
+  if(t===0)return arRect(R(3,20),R(2,14),pick(['area','perim']));
+  if(t===1)return arTri(R(4,20),R(3,16),pick([.25,.35,.6,.75]));
+  if(t===2){const isD=R(0,2)===0;return arCirc(isD?2*R(2,10):R(2,15),isD,pick(['area','circ']))}
+  const a=R(3,12);return arTrap(a,a+R(2,10),R(3,12))}
+
+/* ---------- Pythagoras ---------- */
+const TRIPLES=[[3,4,5],[6,8,10],[5,12,13],[8,15,17],[9,12,15],[7,24,25],[12,16,20],[20,21,29]];
+const XF=[{l:'x',u:' cm'}];
+function pyHyp(a,b){const S=a*a+b*b,c=Math.sqrt(S);
+  return G(`A right-angled triangle has shorter sides of ${a} cm and ${b} cm. Find the longest side x${clean1(c)?'':', to 1 decimal place'}.`,triSVG([[0,a],[0,0],[b,0]],{right:1,sides:[a+' cm',b+' cm','?x']}),XF,c,1,[
+    ['a² + b² = c²','Pythagoras’ theorem','This works on any right-angled triangle (the one with the little square in a corner). c is the hypotenuse: the longest side, opposite the right angle. a and b are the two shorter sides that make the right angle.'],
+    [`${a}² + ${b}² = x²`,'Put in the two shorter sides','We know both short sides. The hypotenuse is the one we want, so it’s x.'],
+    [`${a*a} + ${b*b} = x²`,'Square each number',`Squaring means multiplying a number by itself: ${M_(`${a} × ${a} = ${a*a}`)} and ${M_(`${b} × ${b} = ${b*b}`)}.`],
+    [`${S} = x²`,'Add them',M_(`${a*a} + ${b*b} = ${S}`)+'.'],
+    [`x = √${S}`,'Square root both sides','x² means x × x. The opposite of squaring is square rooting (the √ button). A length is always positive, so ignore the negative root.'],
+    finalStep(c,'x',' cm')])}
+function pySide(c,a){const S=c*c-a*a,b=Math.sqrt(S);
+  return G(`A right-angled triangle has a longest side (hypotenuse) of ${c} cm and one shorter side of ${a} cm. Find the other shorter side x${clean1(b)?'':', to 1 decimal place'}.`,triSVG([[0,a],[0,0],[b,0]],{right:1,sides:[a+' cm','?x',c+' cm']}),XF,b,1,[
+    ['a² + b² = c²','Pythagoras’ theorem','c is the hypotenuse, the longest side opposite the right angle. This time we know it, and we want one of the shorter sides.'],
+    [`${a}² + x² = ${c}²`,'Put in the numbers',`${c} is the hypotenuse, so it goes on its own on the right.`],
+    [`${a*a} + x² = ${c*c}`,'Square the numbers',`${M_(`${a} × ${a} = ${a*a}`)} and ${M_(`${c} × ${c} = ${c*c}`)}.`],
+    [`x² = ${c*c} − ${a*a} = ${S}`,`Subtract ${a*a} from both sides`,'To find a shorter side you <b>subtract</b>. The hypotenuse squared is the biggest number, so take the other side’s square away from it.'],
+    [`x = √${S}`,'Square root both sides','Square rooting undoes squaring.'],
+    finalStep(b,'x',' cm')])}
+function genGC(){if(R(0,1)){const[t0,t1,t2]=pick(TRIPLES);const sw=R(0,1);const a=sw?t0:t1,b=sw?t1:t0;return R(0,1)?pyHyp(a,b):pySide(t2,a)}
+  if(R(0,1))return pyHyp(R(3,15),R(3,15));const a=R(3,14);return pySide(R(a+2,a+12),a)}
+
+/* ---------- SOH CAH TOA ---------- */
+const NAME={O:'opposite',A:'adjacent',H:'hypotenuse'};
+const SIDE_HELP='Stand at the angle θ and look across the triangle. The <b>hypotenuse</b> (H) is the longest side, opposite the right angle. The <b>opposite</b> (O) is the side directly across from θ. The <b>adjacent</b> (A) is the side next to θ that isn’t the hypotenuse.';
+const SOH_HELP='SOH CAH TOA is the memory trick. <b>S</b>in = <b>O</b>pposite ÷ <b>H</b>ypotenuse. <b>C</b>os = <b>A</b>djacent ÷ <b>H</b>ypotenuse. <b>T</b>an = <b>O</b>pposite ÷ <b>A</b>djacent. Pick the one that contains both the side you know and the side you want. The third side doesn’t matter.';
+function trigSide(th,known,kv,want){const t=rad(th);const H=known==='H'?kv:known==='O'?kv/Math.sin(t):kv/Math.cos(t);const L={O:H*Math.sin(t),A:H*Math.cos(t),H};const ans=L[want];
+  const pair=[known,want].sort().join(''),fn=pair==='AH'?'cos':pair==='HO'?'sin':'tan',top=fn==='cos'?'A':'O',bot=fn==='tan'?'A':'H',fv=Math[fn](t),code={sin:'SOH',cos:'CAH',tan:'TOA'}[fn];
+  const lab=s=>s===known?kv+' cm':s===want?'?x':'';
+  const steps=[[`${NAME[known]} = ${kv},  ${NAME[want]} = x`,'Name the sides from the angle',SIDE_HELP],
+    [`${fn} θ = ${top} ÷ ${bot}`,`${known} and ${want} are both in ${code}`,SOH_HELP],
+    [`${fn} ${th}° = ${top===want?'x':kv} ÷ ${bot===want?'x':kv}`,'Put in the numbers','Swap the letters for what you know. x is the side we’re finding.']];
+  if(want===top)steps.push([`x = ${kv} × ${fn} ${th}°`,`Multiply both sides by ${kv}`,`x is being divided by ${kv}. The opposite of dividing is multiplying, so multiply both sides by ${kv} to get x on its own.`]);
+  else steps.push([`x × ${fn} ${th}° = ${kv}`,'Multiply both sides by x','x is on the bottom of the fraction, which is awkward. Multiply both sides by x to bring it up.'],[`x = ${kv} ÷ ${fn} ${th}°`,`Divide both sides by ${fn} ${th}°`,`Now ${fn} ${th}° is multiplying x, so divide both sides by it.`]);
+  steps.push([`x = ${kv} ${want===top?'×':'÷'} ${fv.toFixed(4)}… = ${dp4(ans)}…`,'Use your calculator',`Check your calculator is in <b>degrees</b> mode (a small D or DEG on the screen), or the answer will be wrong. ${fn} ${th}° = ${fv.toFixed(4)}…`],roundStep(ans,'x',' cm'));
+  return G(`Find the length of side x, to 1 decimal place.`,triSVG([[0,L.O],[0,0],[L.A,0]],{right:1,sides:[lab('O'),lab('A'),lab('H')],angles:['','',th+'°']}),XF,ans,1,steps)}
+function trigAngle(fn,s1,s2){let O,A,H;if(fn==='tan'){O=s1;A=s2;H=Math.hypot(O,A)}else if(fn==='sin'){O=s1;H=s2;A=Math.sqrt(H*H-O*O)}else{A=s1;H=s2;O=Math.sqrt(H*H-A*A)}
+  const top=fn==='cos'?'A':'O',bot=fn==='tan'?'A':'H',V={O,A,H},r=V[top]/V[bot],th=deg(Math[{sin:'asin',cos:'acos',tan:'atan'}[fn]](r)),code={sin:'SOH',cos:'CAH',tan:'TOA'}[fn];
+  const lab=s=>s===top||s===bot?nice(V[s])+' cm':'';
+  return G(`Find the angle θ, to 1 decimal place.`,triSVG([[0,O],[0,0],[A,0]],{right:1,sides:[lab('O'),lab('A'),lab('H')],angles:['','','?θ']}),[{l:'θ',u:'°'}],th,1,[
+    [`${NAME[top]} = ${nice(V[top])},  ${NAME[bot]} = ${nice(V[bot])}`,'Name the sides from the angle',SIDE_HELP],
+    [`${fn} θ = ${top} ÷ ${bot}`,`${top} and ${bot} are both in ${code}`,SOH_HELP],
+    [`${fn} θ = ${nice(V[top])} ÷ ${nice(V[bot])}`,'Put in the numbers',''],
+    [`${fn} θ = ${dp4(r)}…`,'Divide',`${M_(`${nice(V[top])} ÷ ${nice(V[bot])}`)} on your calculator. Keep all the digits.`],
+    [`θ = ${fn}⁻¹(${dp4(r)}…)`,`Use inverse ${fn}`,`This time we want the angle, not a side. To get the angle back out of ${fn}, use the inverse, written ${fn}⁻¹. On most calculators press SHIFT (or 2nd), then ${fn}. Make sure it’s in degrees mode.`],
+    [`θ = ${dp4(th)}…°`,'Calculator answer',''],roundStep(th,'θ','°')])}
+function genGD(){if(R(0,2)===0){const fn=pick(['sin','cos','tan']);if(fn==='tan')return trigAngle(fn,R(3,15),R(3,15));const H=R(6,20);return trigAngle(fn,R(2,H-2),H)}
+  const known=pick(['O','A','H']),want=pick(['O','A','H'].filter(s=>s!==known));return trigSide(R(20,70),known,known==='H'?R(8,25):R(4,20),want)}
+
+/* ---------- sine & cosine rules ---------- */
+const verts=['A','B','C'];
+function sineSide(A,B,a){const C=180-A-B,b=a*Math.sin(rad(B))/Math.sin(rad(A)),c=a*Math.sin(rad(C))/Math.sin(rad(A)),sA=Math.sin(rad(A)),sB=Math.sin(rad(B));
+  return G(`In triangle ABC, angle A = ${A}°, angle B = ${B}° and side a = ${a} cm. Find side x, to 1 decimal place.`,triSVG(triABC(A,b,c),{verts,angles:[A+'°',B+'°',''],sides:['',a+' cm','?x']}),XF,b,1,[
+    ['a ÷ sin A = b ÷ sin B','The sine rule','The sine rule works in <b>any</b> triangle, not just right-angled ones. Small letters are sides, capital letters are angles, and side a sits opposite angle A. Use it when you know a side <b>and</b> the angle opposite it (a matching pair).'],
+    [`${a} ÷ sin ${A}° = x ÷ sin ${B}°`,'Put in the numbers',`Side a = ${a} is opposite angle A = ${A}°. That’s the matching pair. x is opposite angle B = ${B}°.`],
+    [`x = ${a} × sin ${B}° ÷ sin ${A}°`,`Multiply both sides by sin ${B}°`,`x is divided by sin ${B}°, so multiply both sides by it to get x on its own.`],
+    [`x = ${a} × ${sB.toFixed(4)}… ÷ ${sA.toFixed(4)}…`,'Work out the sines',`Calculator in degrees mode: sin ${B}° = ${sB.toFixed(4)}… and sin ${A}° = ${sA.toFixed(4)}…`],
+    [`x = ${dp4(b)}…`,'Calculate','Best done in one go on the calculator so nothing gets rounded too early.'],roundStep(b,'x',' cm')])}
+function sineAngle(A,a,b){const s=b*Math.sin(rad(A))/a,B=deg(Math.asin(s)),C=180-A-B,c=a*Math.sin(rad(C))/Math.sin(rad(A));
+  return G(`In triangle ABC, angle A = ${A}°, side a = ${a} cm and side b = ${b} cm. Find angle θ at B, to 1 decimal place.`,triSVG(triABC(A,b,c),{verts,angles:[A+'°','?θ',''],sides:['',a+' cm',b+' cm']}),[{l:'θ',u:'°'}],B,1,[
+    ['sin B ÷ b = sin A ÷ a','The sine rule, flipped','When you’re finding an angle, write the sine rule upside down so the angles are on top. It’s the same rule, just easier to rearrange.'],
+    [`sin θ ÷ ${b} = sin ${A}° ÷ ${a}`,'Put in the numbers',`a = ${a} and A = ${A}° are the matching pair. θ is opposite side b = ${b}.`],
+    [`sin θ = ${b} × sin ${A}° ÷ ${a}`,`Multiply both sides by ${b}`,`sin θ is divided by ${b}, so multiply both sides by ${b}.`],
+    [`sin θ = ${dp4(s)}…`,'Calculate','Degrees mode. Keep all the digits.'],
+    [`θ = sin⁻¹(${dp4(s)}…)`,'Use inverse sine','To get the angle back out of sin, use sin⁻¹: press SHIFT (or 2nd), then sin.'],
+    [`θ = ${dp4(B)}…°`,'Calculator answer',''],roundStep(B,'θ','°')])}
+function cosSide(A,b,c){const cA=Math.cos(rad(A)),a2=b*b+c*c-2*b*c*cA,a=Math.sqrt(a2);
+  return G(`In triangle ABC, side b = ${b} cm, side c = ${c} cm and the angle between them is A = ${A}°. Find side x, to 1 decimal place.`,triSVG(triABC(A,b,c),{verts,angles:[A+'°','',''],sides:[c+' cm','?x',b+' cm']}),XF,a,1,[
+    ['a² = b² + c² − 2bc cos A','The cosine rule','Use the cosine rule when you know two sides and the angle <b>sandwiched between them</b>, and want the third side. Side a is always the one opposite angle A, which is the side we’re finding.'],
+    [`x² = ${b}² + ${c}² − 2 × ${b} × ${c} × cos ${A}°`,'Put in the numbers','2bc means 2 × b × c.'],
+    [`x² = ${b*b} + ${c*c} − ${2*b*c} × ${cA.toFixed(4)}…`,'Work out each part',`${b}² = ${b*b}, ${c}² = ${c*c}, 2 × ${b} × ${c} = ${2*b*c}, and cos ${A}° = ${cA.toFixed(4)}…${A>90?' Because the angle is over 90°, cos is negative, so taking it away actually adds.':''}`],
+    [`x² = ${dp4(a2)}…`,'Calculate','Multiply first, then add and subtract (BIDMAS).'],
+    [`x = √${dp4(a2)}… = ${dp4(a)}…`,'Square root','x² means x × x, so square root to undo it.'],roundStep(a,'x',' cm')])}
+function cosAngle(a,b,c){const top=b*b+c*c-a*a,bot=2*b*c,r=top/bot,A=deg(Math.acos(r));const B=deg(Math.asin(b*Math.sin(rad(A))/a));
+  return G(`Triangle ABC has sides a = ${a} cm, b = ${b} cm and c = ${c} cm. Find angle θ at A, to 1 decimal place.`,triSVG(triABC(A,b,c),{verts,angles:['?θ','',''],sides:[c+' cm',a+' cm',b+' cm']}),[{l:'θ',u:'°'}],A,1,[
+    ['cos A = (b² + c² − a²) ÷ 2bc','Cosine rule for an angle','When you know all three sides, this version of the cosine rule finds an angle. a must be the side <b>opposite</b> the angle you want.'],
+    [`cos θ = (${b}² + ${c}² − ${a}²) ÷ (2 × ${b} × ${c})`,'Put in the numbers',`The side opposite θ is ${a}, so that’s a.`],
+    [`cos θ = (${b*b} + ${c*c} − ${a*a}) ÷ ${bot}`,'Square and multiply',''],
+    [`cos θ = ${top} ÷ ${bot} = ${dp4(r)}…`,'Simplify',`${M_(`${b*b} + ${c*c} − ${a*a} = ${top}`)}.${top<0?' The top is negative, so the angle is more than 90°.':''}`],
+    [`θ = cos⁻¹(${dp4(r)}…)`,'Use inverse cos','Press SHIFT (or 2nd), then cos.'],
+    [`θ = ${dp4(A)}…°`,'Calculator answer',''],roundStep(A,'θ','°')])}
+function genGE(){const t=R(0,3);
+  if(t===0){const A=R(30,100);return sineSide(A,R(25,Math.min(110,155-A)),R(5,20))}
+  if(t===1){const a=R(8,20);return sineAngle(R(40,110),a,R(4,a-2))}
+  if(t===2)return cosSide(R(25,130),R(4,15),R(4,15));
+  const b=R(5,14),c=R(5,14);return cosAngle(R(Math.abs(b-c)+2,b+c-2),b,c)}
+
+/* ---------- distance & midpoint ---------- */
+function cDist(x1,y1,x2,y2){const dx=x2-x1,dy=y2-y1,S=dx*dx+dy*dy,d=Math.sqrt(S);
+  return G(`Find the distance between A${pt(x1,y1)} and B${pt(x2,y2)}${clean1(d)?'':', to 1 decimal place'}.`,gridSVG([{x:x1,y:y1,s:'A'},{x:x2,y:y2,s:'B'}],{legs:true,seg:true}),[{l:'d',u:' units'}],d,1,[
+    ['Make a right-angled triangle','Picture the trip from A to B','Get from A to B in two moves: straight across, then straight up or down (the dashed lines). Those two moves are the short sides of a right-angled triangle, and the line AB is the hypotenuse. So this is just Pythagoras.'],
+    [`across = ${num(x2)} − ${par(x1)} = ${num(dx)}`,'Change in x',`Subtract the x-coordinates (the first number in each pair).${dx<0?' It’s negative, which is fine: squaring will make it positive.':''}`],
+    [`up/down = ${num(y2)} − ${par(y1)} = ${num(dy)}`,'Change in y','Subtract the y-coordinates (the second number in each pair), in the same order.'],
+    [`d² = ${par(dx)}² + ${par(dy)}²`,'Pythagoras: a² + b² = c²',''],
+    [`d² = ${dx*dx} + ${dy*dy} = ${S}`,'Square and add','A negative times a negative is positive, so squaring always gives a positive number.'],
+    [`d = √${S}`,'Square root',''],finalStep(d,'d',' units')])}
+function cMid(x1,y1,x2,y2){const mx=(x1+x2)/2,my=(y1+y2)/2;
+  return G(`Find the midpoint of A${pt(x1,y1)} and B${pt(x2,y2)}.`,gridSVG([{x:x1,y:y1,s:'A'},{x:x2,y:y2,s:'B'}],{seg:true}),[{l:'x'},{l:'y'}],[mx,my],0,[
+    ['M = ((x₁ + x₂) ÷ 2, (y₁ + y₂) ÷ 2)','The midpoint formula','The midpoint is exactly halfway between A and B. Halfway between two numbers is their average: add them and halve. Do the x-coordinates and y-coordinates separately.'],
+    [`x = (${num(x1)} + ${par(x2)}) ÷ 2 = ${num(x1+x2)} ÷ 2 = ${nice(mx)}`,'Average the x-coordinates',''],
+    [`y = (${num(y1)} + ${par(y2)}) ÷ 2 = ${num(y1+y2)} ÷ 2 = ${nice(my)}`,'Average the y-coordinates',''],
+    [`M = ${pt(mx,my)}`,'Put them together','Halves like 2.5 are fine. You can type 2.5 or 5/2.']])}
+function genGF(){let x1,y1,x2,y2;do{x1=R(-8,8);y1=R(-8,8);x2=R(-8,8);y2=R(-8,8)}while(x1===x2||y1===y2);return R(0,1)?cDist(x1,y1,x2,y2):cMid(x1,y1,x2,y2)}
+
+/* ---------- gradient & lines ---------- */
+const GRAD_HELP='Gradient measures steepness: how far the line goes <b>up</b> for every 1 step to the <b>right</b>. Uphill (reading left to right) is positive, downhill is negative. Think “rise over run”.';
+function gradSteps(x1,y1,x2,y2){const dy=y2-y1,dx=x2-x1,m=dy/dx;return[
+  ['m = change in y ÷ change in x','Gradient = rise ÷ run',GRAD_HELP],
+  [`m = (${num(y2)} − ${par(y1)}) ÷ (${num(x2)} − ${par(x1)})`,'Put in the coordinates','Use the same order on top and bottom: B take away A both times.'],
+  [`m = ${num(dy)} ÷ ${par(dx)}`,'Work out top and bottom',''],
+  [`m = ${mF(m)}`,'Simplify',`${(dy<0)!==(dx<0)?'One negative, so the gradient is negative.':dy<0?'Negative ÷ negative is positive.':''} ${fracParts(m)[1]>1?'If it doesn’t divide exactly, leave it as a simplified fraction. You can type it like 2/3.':''}`]]}
+function cGrad(x1,y1,x2,y2){return G(`Find the gradient of the line through A${pt(x1,y1)} and B${pt(x2,y2)}.`,gridSVG([{x:x1,y:y1,s:'A'},{x:x2,y:y2,s:'B'}],{seg:true}),[{l:'m'}],(y2-y1)/(x2-x1),'grad',gradSteps(x1,y1,x2,y2))}
+function cLine2(x1,y1,x2,y2){const m=(y2-y1)/(x2-x1),c=y1-m*x1;
+  return G(`Find the equation of the line through A${pt(x1,y1)} and B${pt(x2,y2)}, in the form y = mx + c.`,gridSVG([{x:x1,y:y1,s:'A'},{x:x2,y:y2,s:'B'}],{seg:true}),[{l:'m'},{l:'c'}],[m,c],'grad',[
+    ...gradSteps(x1,y1,x2,y2),
+    ['y = mx + c','Every straight line looks like this','m is the gradient (which we just found). c is the y-intercept: where the line crosses the y-axis. To find c, put in any point on the line.'],
+    [`${num(y1)} = ${mF(m)} × ${par(x1)} + c`,'Put in point A',`At point A, x = ${num(x1)} and y = ${num(y1)}.`],
+    [`${num(y1)} = ${nice(m*x1)} + c`,'Multiply',''],
+    [`c = ${nice(c)}`,m*x1?move(m*x1):'Nothing to move',m*x1?`Get c on its own: ${M_(`${num(y1)} ${m*x1>0?'−':'+'} ${nice(Math.abs(m*x1))} = ${nice(c)}`)}.`:''],
+    [lineStr(m,c),'Write the equation','Put m and c back into y = mx + c. Type m and c into the boxes.']])}
+function cRearr(m,c,b,form){const eq=form?`${eqxy(-b*m,b,b*c)}`:`${b}y = ${lin(b*m,b*c)}`;const st=[];
+  if(form)st.push([`${b}y = ${lin(b*m,b*c)}`,`${-b*m>0?'Subtract':'Add'} ${Math.abs(b*m)}x ${-b*m>0?'from':'to'} both sides`,'We need y on its own on one side, so move the x term over to the other side by doing the opposite.']);
+  st.push([lineStr(m,c),`Divide every term by ${b}`,`${b}y means ${b} × y. Divide <b>every</b> term by ${b}: ${M_(`${num(b*m)} ÷ ${b} = ${num(m)}`)} and ${M_(`${num(b*c)} ÷ ${b} = ${num(c)}`)}.`],
+    [`m = ${num(m)},  c = ${num(c)}`,'Read off m and c','Now it’s in the form y = mx + c. The number in front of x is the gradient m. The number on its own is the y-intercept c.']);
+  return G(`Find the gradient m and y-intercept c of the line ${eq}.`,'',[{l:'m'},{l:'c'}],[m,c],'grad',[['y = mx + c','Aim for this form','To read off the gradient and intercept, the equation must say “y = …” with y on its own.'],...st])}
+function genGG(){const t=R(0,2);
+  if(t===0){let x1,y1,x2,y2;do{x1=R(-7,7);y1=R(-7,7);x2=R(-7,7);y2=R(-7,7)}while(x1===x2||y1===y2);return cGrad(x1,y1,x2,y2)}
+  if(t===1){const m=pick([1,2,3,-1,-2,-3,.5,-.5]),k=Math.abs(m)<1?2:1;let x1,x2,c,y1,y2;do{x1=k*R(-3,3);x2=k*R(-3,3);c=R(-5,5);y1=m*x1+c;y2=m*x2+c}while(x1===x2||Math.abs(y1)>9||Math.abs(y2)>9);return cLine2(x1,y1,x2,y2)}
+  return cRearr(nz(-4,4),nz(-6,6),R(2,5),R(0,1))}
+
+/* ---------- parallel & perpendicular ---------- */
+const PERP_HELP='Perpendicular lines cross at a right angle. Their gradients always multiply to −1. The quick way: flip the gradient upside down and change its sign.';
+function cPerpGrad(m,c){const p=-1/m,[n,d]=fracParts(m);
+  return G(`Find the gradient of a line perpendicular to ${lineStr(m,c)}.`,'',[{l:'m'}],p,'grad',[
+    [`m = ${mF(m)}`,'Gradient of the given line','In y = mx + c, the number in front of x is the gradient.'],
+    [`flip: ${mF(1/Math.abs(m))}`,'Turn it upside down',`${mF(Math.abs(m))} flipped is ${mF(1/Math.abs(m))}.${d===1?` A whole number like ${Math.abs(n)} is really ${Math.abs(n)}/1, so flipped it’s 1/${Math.abs(n)}.`:''}`],
+    [`perpendicular m = ${mF(p)}`,'Change the sign',PERP_HELP],
+    [`${mF(m)} × ${mF(p)} = −1 ✓`,'Check','Multiply the two gradients: if you get −1, they’re perpendicular.']])}
+function cParLine(m,c0,px,py,perp){const g=perp?-1/m:m,c=py-g*px;
+  return G(`Find the equation of the line ${perp?'perpendicular':'parallel'} to ${lineStr(m,c0)} that passes through ${pt(px,py)}. Give it as y = mx + c.`,'',[{l:'m'},{l:'c'}],[g,c],'grad',[
+    perp?[`m = ${mF(g)}`,'Flip and change the sign of '+mF(m),PERP_HELP]:[`m = ${mF(g)}`,'Parallel lines have the same gradient','Parallel lines never meet because they are exactly as steep as each other. So the new line has the same gradient as the old one.'],
+    [`${num(py)} = ${mF(g)} × ${par(px)} + c`,`Put in the point ${pt(px,py)}`,'Use y = mx + c with the new gradient, and the x and y of the point the line goes through.'],
+    [`${num(py)} = ${nice(g*px)} + c`,'Multiply',''],
+    [`c = ${nice(c)}`,g*px?move(g*px):'Nothing to move',''],
+    [lineStr(g,c),'Write the equation','Type m and c into the boxes.']])}
+function genGH(){const t=R(0,2);
+  if(t===0)return cPerpGrad(pick([2,3,4,5,-2,-3,-4,.5,-.5,1/3,-1/3,2/3,-3/4]),nz(-6,6));
+  if(t===1)return cParLine(nz(-5,5),nz(-6,6),R(-5,5),R(-6,6),false);
+  const m=pick([1,-1,2,-2,.5,-.5,3,-3,1/3,-1/3]),k=fracParts(-1/m)[1];return cParLine(m,nz(-5,5),k*R(-3,3),R(-6,6),true)}
+
+/* ---------- circles ---------- */
+const br=(a,v)=>a===0?`${v}²`:`(${v} ${a>0?'−':'+'} ${Math.abs(a)})²`;
+const CF=[{l:'centre x'},{l:'centre y'},{l:'radius'}];
+function cirStd(a,b,r){return G(`Find the centre and radius of the circle ${br(a,'x')} + ${br(b,'y')} = ${r*r}.`,'',CF,[a,b,r],0,[
+  ['(x − a)² + (y − b)² = r²','The circle equation','This describes a circle with centre (a, b) and radius r. The centre comes from the brackets, but with the signs <b>flipped</b>: (x − 3) means a = 3, and (x + 2) means a = −2, because x − (−2) is x + 2. A plain x² means a = 0.'],
+  [`centre = ${pt(a,b)}`,'Flip the signs in the brackets',`${br(a,'x')} gives ${num(a)}, and ${br(b,'y')} gives ${num(b)}.`],
+  [`r² = ${r*r}, so r = √${r*r} = ${r}`,'Square root the right-hand side','The number on the right is the radius <b>squared</b>. Square root it to get the radius. A common slip is giving r = '+r*r+'.']])}
+function cirExp(a,b,r){const D=-2*a,E=-2*b,F=a*a+b*b-r*r;
+  const eq=`x² + y²${term(D,'x',false)}${term(E,'y',false)}${F?term(F,'',false):''} = 0`;
+  return G(`Find the centre and radius of the circle ${eq}.`,'',CF,[a,b,r],0,[
+    [`x²${term(D,'x',false)} + y²${term(E,'y',false)} = ${num(-F)}`,'Group the x’s and the y’s','Put the x terms together and the y terms together. Move the plain number to the right-hand side by doing the opposite.'],
+    [`x²${term(D,'x',false)} = ${br(a,'x')} − ${a*a}`,'Complete the square for x',`Take the number in front of x (${num(D)}) and halve it: ${num(D/2)}. That goes in the bracket: ${br(a,'x')}. But ${br(a,'x')} multiplies out to x²${term(D,'x',false)} + ${a*a}, which has an extra ${a*a}, so take ${a*a} away.`],
+    [`y²${term(E,'y',false)} = ${br(b,'y')} − ${b*b}`,'Complete the square for y',`Same again: half of ${num(E)} is ${num(E/2)}, and the extra to take away is ${num(E/2)}² = ${b*b}.`],
+    [`${br(a,'x')} − ${a*a} + ${br(b,'y')} − ${b*b} = ${num(-F)}`,'Swap them in',''],
+    [`${br(a,'x')} + ${br(b,'y')} = ${r*r}`,`Add ${a*a} and ${b*b} to both sides`,M_(`${num(-F)} + ${a*a} + ${b*b} = ${r*r}`)+'. Now it’s in the standard form.'],
+    [`centre ${pt(a,b)},  radius √${r*r} = ${r}`,'Read off the answer','Flip the signs in the brackets for the centre. Square root the right-hand side for the radius.']])}
+function cirRad(a,b,px,py){const dx=px-a,dy=py-b,S=dx*dx+dy*dy,r=Math.sqrt(S);
+  return G(`A circle has centre C${pt(a,b)} and passes through P${pt(px,py)}. Find its radius${clean1(r)?'':', to 1 decimal place'}.`,gridSVG([{x:a,y:b,s:'C'},{x:px,y:py,s:'P'}],{seg:true}),[{l:'r',u:' units'}],r,1,[
+    ['radius = distance from C to P','The radius reaches from the centre to the edge','Every point on a circle is exactly one radius away from the centre. P is on the circle, so the radius is the distance CP. Use the distance method (Pythagoras).'],
+    [`across = ${num(px)} − ${par(a)} = ${num(dx)},  up/down = ${num(py)} − ${par(b)} = ${num(dy)}`,'Changes in x and y',''],
+    [`r² = ${par(dx)}² + ${par(dy)}² = ${S}`,'Pythagoras',`${dx*dx} + ${dy*dy} = ${S}.`],
+    [`r = √${S}`,'Square root',`Bonus: the circle’s equation is ${br(a,'x')} + ${br(b,'y')} = ${S}.`],finalStep(r,'r',' units')])}
+function genGI(){const t=R(0,2);if(t===0)return cirStd(R(-8,8),R(-8,8),R(2,10));if(t===1)return cirExp(nz(-7,7),nz(-7,7),R(2,9));
+  let a,b,px,py;do{a=R(-5,5);b=R(-5,5);px=R(-8,8);py=R(-8,8)}while(px===a||py===b);return cirRad(a,b,px,py)}
+
+/* ---------- geometry lessons ---------- */
+const EX=(q,h='Worked example, every step explained')=>`<h3>${h}</h3><p>${q.q}</p>${q.fig||''}${W(q.steps)}`;
+TOPICS.push(
+ {id:'g0',track:'g1',lessonOnly:true,name:'Start here: geometry basics',eq:'Angles, triangles, units and rounding',
+  lesson:`<h3>1. Angles are amounts of turn</h3>
+  <p>An angle measures how far something turns, in degrees (°). A full turn all the way round is <span class="hl">360°</span>.</p>
+  <div class="vocab"><div><b>Right angle</b><br>Exactly 90°, a quarter turn. Shown with a little square in the corner.</div><div><b>Acute</b><br>Less than 90°. Sharp and pointy.</div><div><b>Obtuse</b><br>Between 90° and 180°. Wide open.</div><div><b>Straight line</b><br>180°, half a turn.</div></div>
+  <h3>2. Naming triangles</h3>
+  <p>Corners (vertices) get capital letters: A, B, C. Sides get small letters, and each side is named after the corner <b>opposite</b> it, so side a is across from angle A.</p>
+  ${triSVG(triABC(55,7,9),{verts,sides:['c','a','b'],angles:['A','B','C']})}
+  <div class="vocab"><div><b>Right-angled</b><br>Has one 90° angle. Its longest side is the <b>hypotenuse</b>.</div><div><b>Isosceles</b><br>Two equal sides and two equal angles.</div><div><b>Equilateral</b><br>All sides equal, all angles 60°.</div><div><b>Scalene</b><br>All sides and angles different.</div></div>
+  <h3>3. Units</h3>
+  <p>Lengths are in cm (or m, mm). Areas are in <span class="math">cm²</span>, “square centimetres”, because you multiply cm by cm. Angles are in degrees.</p>
+  <h3>4. Rounding to 1 decimal place</h3>
+  <p>Many answers don’t come out exactly. To round 12.5664 to 1 decimal place, keep one digit after the point (12.5) and look at the <b>next</b> digit (6). If it’s 5 or more, round up: <span class="hl">12.6</span>. If it’s 4 or less, leave it.</p>
+  <div class="rule"><b>Calculator tip:</b> for anything with sin, cos or tan, your calculator must be in <b>degrees</b> mode. Look for a small D or DEG on the screen.</div>
+  <h3>5. π (pi)</h3><p>π ≈ 3.14159… is the number of times a circle’s diameter fits round its edge. Always use the π button rather than typing 3.14.</p>`},
+ {id:'ga',track:'g1',name:'Angle rules',eq:'Triangle 180° · line 180° · point 360°',gen:genGA,
+  lesson:`<p>Most angle questions use one of a few rules. Spot which one fits, write it as an equation, and solve.</p>
+  <div class="vocab"><div><b>Triangle</b><br>Angles add to 180°</div><div><b>Straight line</b><br>Angles add to 180°</div><div><b>Around a point</b><br>Angles add to 360°</div><div><b>Quadrilateral</b><br>Angles add to 360°</div></div>
+  <div class="rule"><b>Isosceles triangles</b> (two sides marked with dashes) have two equal base angles.</div>
+  ${EX(angTri(65,48))}${EX(angIso('apex',40),'Isosceles example')}`},
+ {id:'gb',track:'g1',name:'Area & perimeter',eq:'Rectangles, triangles, circles, trapeziums',gen:genGB,
+  lesson:`<p><b>Perimeter</b> is the distance round the outside, in cm. <b>Area</b> is the space inside, in cm². Learn these formulas:</p>
+  <div class="vocab"><div><b>Rectangle</b><br><span class="math">Area = l × w</span></div><div><b>Triangle</b><br><span class="math">Area = ½ × b × h</span></div><div><b>Trapezium</b><br><span class="math">Area = ½ × (a + b) × h</span></div><div><b>Circle</b><br><span class="math">Area = πr²</span><br><span class="math">C = 2πr</span></div></div>
+  <div class="rule"><b>Watch out:</b> the radius is half the diameter. Heights are always measured straight up at a right angle.</div>
+  ${EX(arTri(10,6,.35))}${EX(arCirc(10,true,'area'),'Circle example')}`},
+ {id:'gc',track:'g1',name:'Pythagoras',eq:'a² + b² = c²',gen:genGC,
+  lesson:`<p>Pythagoras’ theorem links the three sides of a <b>right-angled</b> triangle. If you know any two sides, you can find the third.</p>
+  <div class="rule"><span class="math">a² + b² = c²</span>, where c is the hypotenuse (longest side, opposite the right angle).<br><b>Finding the longest side?</b> Square, <b>add</b>, square root.<br><b>Finding a shorter side?</b> Square, <b>subtract</b>, square root.</div>
+  ${EX(pyHyp(6,8),'Example 1: finding the hypotenuse')}${EX(pySide(13,5),'Example 2: finding a shorter side')}
+  <p class="muted">Sense check: the hypotenuse is always the longest side. If your answer for it is smaller than another side, something went wrong.</p>`},
+ {id:'gd',track:'g1',name:'Trigonometry: SOH CAH TOA',eq:'sin θ = O ÷ H',gen:genGD,
+  lesson:`<p>Trigonometry links the <b>angles</b> and <b>sides</b> of a right-angled triangle. Pythagoras needs two sides. Trig works with one side and one angle, or with two sides when you want an angle.</p>
+  ${triSVG([[0,3],[0,0],[4,0]],{right:1,sides:['O','A','H'],angles:['','','θ']})}
+  <p class="muted">O = opposite (across from θ), A = adjacent (next to θ), H = hypotenuse (longest, across from the right angle).</p>
+  <div class="rule"><b>SOH</b>: sin θ = O ÷ H &nbsp; <b>CAH</b>: cos θ = A ÷ H &nbsp; <b>TOA</b>: tan θ = O ÷ A</div>
+  <p><b>The recipe:</b> 1. label the sides from the angle. 2. tick the side you know and the side you want. 3. pick the SOH CAH TOA that has both. 4. put in the numbers and rearrange.</p>
+  ${EX(trigSide(35,'H',10,'O'),'Example 1: x on top (multiply)')}${EX(trigSide(40,'A',8,'H'),'Example 2: x on the bottom (divide)')}${EX(trigAngle('tan',5,7),'Example 3: finding an angle')}`},
+ {id:'ge',track:'g1',name:'Sine & cosine rules',eq:'a² = b² + c² − 2bc cos A',gen:genGE,
+  lesson:`<p>SOH CAH TOA only works with right angles. For <b>any</b> triangle, use the sine rule or the cosine rule. Side a is always opposite angle A.</p>
+  <div class="vocab"><div><b>Sine rule</b><br><span class="math">a ÷ sin A = b ÷ sin B</span><br>Use when you know a side and its opposite angle.</div><div><b>Cosine rule</b><br><span class="math">a² = b² + c² − 2bc cos A</span><br>Use when you know two sides and the angle between them, or all three sides.</div></div>
+  ${EX(sineSide(50,70,9),'Example 1: sine rule')}${EX(cosSide(60,7,9),'Example 2: cosine rule')}`},
+ {id:'g9',track:'g2',lessonOnly:true,name:'Start here: the coordinate grid',eq:'What (3, −2) actually means',
+  lesson:`<p>A coordinate grid has two number lines crossing at the <b>origin</b> (0, 0). The <b>x-axis</b> goes across, the <b>y-axis</b> goes up.</p>
+  <div class="rule">A point like <span class="math">(3, −2)</span> means: <b>x first</b>, go 3 across (right). <b>Then y</b>: go 2 down (because it’s negative). Memory trick: “along the corridor, then up the stairs.”</div>
+  ${gridSVG([{x:3,y:-2,s:'(3, −2)'},{x:-4,y:5,s:'(−4, 5)'},{x:0,y:0,s:'(0, 0)'}])}
+  <div class="vocab"><div><b>Positive x</b><br>Right of the y-axis</div><div><b>Negative x</b><br>Left</div><div><b>Positive y</b><br>Above the x-axis</div><div><b>Negative y</b><br>Below</div></div>
+  <p>Coordinate geometry means using these numbers to work out distances, slopes, lines and circles without measuring anything. Most of it reuses things you already know: Pythagoras, averages, and rearranging equations.</p>
+  <div class="rule"><b>Sign rules still matter:</b> 3 − (−2) = 5, and (−4)² = 16.</div>`},
+ {id:'gf',track:'g2',name:'Distance & midpoint',eq:'A(1, 2) to B(7, 10)',gen:genGF,
+  lesson:`<p><b>Distance</b> between two points is Pythagoras in disguise: the change in x and change in y are the short sides of a right-angled triangle.</p>
+  <div class="rule"><span class="math">d = √((x₂ − x₁)² + (y₂ − y₁)²)</span><br><span class="math">midpoint = ((x₁ + x₂) ÷ 2, (y₁ + y₂) ÷ 2)</span></div>
+  ${EX(cDist(1,2,7,10),'Example 1: distance')}${EX(cMid(-3,4,5,-2),'Example 2: midpoint')}`},
+ {id:'gg',track:'g2',name:'Gradient & y = mx + c',eq:'m = rise ÷ run',gen:genGG,
+  lesson:`<p>Every straight line can be written <span class="math">y = mx + c</span>. <b>m</b> is the gradient (steepness) and <b>c</b> is where it crosses the y-axis.</p>
+  <div class="rule"><span class="math">m = (y₂ − y₁) ÷ (x₂ − x₁)</span> “rise over run”</div>
+  ${EX(cLine2(-2,-1,2,7),'Example: line through two points')}${EX(cRearr(2,-3,3,1),'Example: rearranging to read off m and c')}`},
+ {id:'gh',track:'g2',name:'Parallel & perpendicular',eq:'m₁ × m₂ = −1',gen:genGH,
+  lesson:`<div class="vocab"><div><b>Parallel</b><br>Never meet. <b>Same</b> gradient.</div><div><b>Perpendicular</b><br>Cross at 90°. Gradient is <b>flipped and sign-changed</b>. The two gradients multiply to −1.</div></div>
+  <div class="rule">Gradient 2 → perpendicular −½. Gradient −⅔ → perpendicular 3/2.</div>
+  ${EX(cPerpGrad(3,1),'Example 1: perpendicular gradient')}${EX(cParLine(2,1,2,1,true),'Example 2: perpendicular line through a point')}`},
+ {id:'gi',track:'g2',name:'Circles',eq:'(x − a)² + (y − b)² = r²',gen:genGI,
+  lesson:`<p>A circle is every point that is the same distance (the radius) from the centre. On a grid, that’s Pythagoras again, which gives the circle equation.</p>
+  <div class="rule"><span class="math">(x − a)² + (y − b)² = r²</span> has centre <b>(a, b)</b> and radius <b>r</b>. Flip the signs for the centre, square root for the radius.</div>
+  ${gridSVG([{x:2,y:-1,s:'centre (2, −1)'}],{circle:{a:2,b:-1,r:4}})}
+  ${EX(cirStd(2,-1,4),'Example 1: reading the centre and radius')}${EX(cirExp(3,-2,5),'Example 2: completing the square')}`}
+);
+
+/* ---------- subjects & stages ---------- */
+const TRACKS={
+  lin:{name:'Linear simultaneous equations',short:'Linear',subj:'eq',color:'var(--accent)',mock:[['s1',2],['s2',2],['s3',2],['s4',2],['s5',2]],mockDesc:'Two questions from each linear topic, including word problems.'},
+  nl:{name:'Non-linear simultaneous equations',short:'Non-linear',subj:'eq',req:'lin',color:'var(--good)',mock:[['n1',3],['n2',3],['n3',2],[['s2','s3'],1],[['s4','s5'],1]],mockDesc:'Eight non-linear systems plus two linear revision questions.'},
+  g1:{name:'Shapes & trigonometry',short:'Shapes & trig',subj:'geo',color:'var(--c3)',mock:[['ga',2],['gb',2],['gc',2],['gd',2],['ge',2]],mockDesc:'Two questions each on angles, area, Pythagoras, SOH CAH TOA and the sine and cosine rules.'},
+  g2:{name:'Coordinate geometry',short:'Coordinate',subj:'geo',req:'g1',color:'var(--c4)',mock:[['gf',3],['gg',3],['gh',2],['gi',2]],mockDesc:'Distance, midpoints, lines, parallel and perpendicular, and circles.'}};
+const SUBJ={
+  eq:{name:'Equations',tracks:['lin','nl'],eyebrow:'Simultaneous equations practice book',from:'3x + 2y = 36',to:'x² + y² = 25',blurb:'Two equations, two unknowns. Learn each method, practise until it sticks, then sit a mock test. Linear systems come first. Pass the linear mock and the non-linear systems open up.'},
+  geo:{name:'Geometry',tracks:['g1','g2'],eyebrow:'Geometry practice book',from:'a² + b² = c²',to:'(x − a)² + (y − b)² = r²',blurb:'Angles, areas and triangles first, then shapes on a coordinate grid. Every question comes with a diagram and every step is explained. Pass the shapes & trig mock to unlock coordinate geometry.'}};
+const topicsOf=tr=>TOPICS.filter(t=>t.track===tr&&!t.lessonOnly);
+
+/* ---------- achievements ---------- */
+const ACHS=[
+ {id:'first',b:'1',name:'Off the mark',d:'Get your first question right'},
+ {id:'s5',b:'5',name:'On a roll',d:'5 correct answers in a row'},
+ {id:'s15',b:'15',name:'Unstoppable',d:'15 correct answers in a row'},
+ {id:'nohint',b:'NH',name:'No stabilisers',d:'10 correct in a row without revealing any steps'},
+ {id:'c50',b:'50',name:'Half century',d:'50 correct answers in practice'},
+ {id:'c200',b:'200',name:'Double ton',d:'200 correct answers in practice'},
+ {id:'m1',b:'★',name:'First mastery',d:'Master any topic'},
+ {id:'linall',b:'=',name:'Balanced',d:'Master all five linear topics'},
+ {id:'linmock',b:'L',name:'Linear graduate',d:'Score 80% or more on the linear mock. Unlocks non-linear'},
+ {id:'nlfirst',b:'x²',name:'Into the curve',d:'Solve your first non-linear system'},
+ {id:'nlall',b:'○',name:'Curve master',d:'Master all three non-linear topics'},
+ {id:'nlmock',b:'N',name:'Non-linear graduate',d:'Score 80% or more on the non-linear mock'},
+ {id:'gfirst',b:'△',name:'Shape shifter',d:'Get your first geometry question right'},
+ {id:'g1all',b:'θ',name:'Triangle tamer',d:'Master all five shapes & trigonometry topics'},
+ {id:'g1mock',b:'G',name:'Geometry graduate',d:'Score 80% or more on the shapes & trig mock. Unlocks coordinate geometry'},
+ {id:'g2all',b:'#',name:'On the grid',d:'Master all four coordinate geometry topics'},
+ {id:'g2mock',b:'C',name:'Coordinate graduate',d:'Score 80% or more on the coordinate geometry mock'},
+ {id:'speed',b:'⏱',name:'Against the clock',d:'Finish a mock in under 10 minutes with 70% or more'},
+ {id:'pb',b:'PB',name:'Personal best',d:'Beat your previous best score on a mock'},
+ {id:'perfect',b:'10',name:'Full marks',d:'Score 10 out of 10 on a mock'},
+ {id:'allround',b:'∞',name:'All-rounder',d:'Pass all four mock tests'},
+];
+
+/* ---------- state (saved in this browser) ---------- */
+const KEY='balance-book-sim-v1';
+function fresh(){return{name:'',topics:{},streak:0,best:0,hint0:0,totalCorrect:0,mocks:[],ach:{},subject:'eq'}}
+let S=fresh();
+try{const raw=localStorage.getItem(KEY);if(raw)S=Object.assign(fresh(),JSON.parse(raw))}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function tp(id){return S.topics[id]||(S.topics[id]={answered:0,correct:0,recent:[],mastered:false})}
+const recentScore=id=>tp(id).recent.reduce((a,b)=>a+b,0);
+const mastery=id=>{const t=tp(id);return t.mastered?100:Math.round(recentScore(id)/10*100)};
+const unlocked=tr=>!TRACKS[tr].req||!!S.ach[TRACKS[tr].req+'mock'];
+const bestMock=tr=>S.mocks.filter(m=>m.track===tr).reduce((m,x)=>Math.max(m,x.pct),-1);
+
+function unlock(id){if(S.ach[id])return;S.ach[id]=new Date().toISOString();toast(ACHS.find(x=>x.id===id))}
+function checkAch(){
+  if(S.totalCorrect>=1)unlock('first');
+  if(S.best>=5)unlock('s5');if(S.best>=15)unlock('s15');
+  if(S.hint0>=10)unlock('nohint');
+  if(S.totalCorrect>=50)unlock('c50');if(S.totalCorrect>=200)unlock('c200');
+  if(TOPICS.some(t=>!t.lessonOnly&&tp(t.id).mastered))unlock('m1');
+  Object.keys(TRACKS).forEach(tr=>{if(topicsOf(tr).every(t=>tp(t.id).mastered))unlock(tr+'all')});
+  if(topicsOf('nl').some(t=>tp(t.id).correct>0))unlock('nlfirst');
+  if([...topicsOf('g1'),...topicsOf('g2')].some(t=>tp(t.id).correct>0))unlock('gfirst');
+  save()}
+
+let toastQ=[],toastBusy=false;
+function toast(a){toastQ.push(a);if(!toastBusy)nextToast()}
+function nextToast(){const a=toastQ.shift();const box=document.getElementById('toastbox');
+  if(!a){toastBusy=false;box.innerHTML='';return}toastBusy=true;
+  box.innerHTML=`<div class="toast" role="status"><span class="badge">${a.b}</span><span>Achievement: ${esc(a.name)}</span></div>`;
+  setTimeout(nextToast,2600)}
+
+/* ---------- answers ---------- */
+function parseOne(s){s=String(s).trim().replace(/−/g,'-').replace(/^£/,'').replace(/(cm²|cm|units?|°|p)$/i,'').trim();if(!s)return NaN;
+  const m=s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);if(m)return +m[1]/+m[2];
+  return /^-?(\d+\.?\d*|\.\d+)$/.test(s)?Number(s):NaN}
+const fieldsOf=q=>q.fields||[{l:'x',aria:q.vars?'x, '+q.vars[0]:'x'},{l:'y',aria:q.vars?'y, '+q.vars[1]:'y'}];
+function check(q,vals){const v=vals.map(p=>p.map(parseOne));if(v.some(p=>p.some(isNaN)))return{ok:false,invalid:true};
+  const tol=q.tol||1e-6,tries=[q.sols];if(q.scale===100)tries.push(q.sols.map(p=>p.map(n=>n*100)));
+  const ok=tries.some(sols=>{const left=sols.map(p=>[...p]);
+    return v.every(g=>{const i=left.findIndex(w=>w.every((x,j)=>Math.abs(x-g[j])<=tol));if(i<0)return false;left.splice(i,1);return true})});
+  return{ok}}
+function fmtAns(q){const F=fieldsOf(q);
+  return q.sols.map(s=>s.map((v,j)=>`${F[j].l} = ${q.scale===100?'£'+v.toFixed(2):q.dp===1?d1(v):nice(v)}${F[j].u||''}`).join(', ')).join('  and  ')}
+const workHtml=q=>q.word?W(q.steps):W([[q.q,'Start'],...q.steps]);
+const qHtml=q=>`<div class="question${q.word?' word':''}">${q.q}</div>${q.fig||''}`;
+const qLabel=q=>q.label||(q.word?'Solve':'Solve simultaneously');
+function inputsHtml(q,dis){const F=fieldsOf(q),two=q.sols.length>1;
+  return`<div class="pairs">${q.sols.map((_,i)=>`<div class="pair"><span class="label">${two?'Solution '+(i+1):'Your answer'}</span>${F.map((f,j)=>`<span class="field"><label class="v" for="a${i}_${j}">${f.l} =</label><input type="text" id="a${i}_${j}" autocomplete="off" spellcheck="false" aria-label="${esc((two?'Solution '+(i+1)+' ':'')+(f.aria||f.l))}" ${dis}>${f.u?`<span class="unit">${f.u.trim()}</span>`:''}</span>`).join('')}</div>`).join('')}</div>`}
+const readVals=q=>q.sols.map((_,i)=>fieldsOf(q).map((_,j)=>document.getElementById(`a${i}_${j}`).value));
+const howto=q=>q.dp===1?'Round to 1 decimal place, like <code>12.6</code>. The units are already shown, so just type the number.':q.dp==='grad'?'Whole numbers, decimals or fractions like <code>-2/3</code> are all fine.':q.geo?'Type a number. Negatives like <code>-4</code> and halves like <code>2.5</code> are fine.':q.sols.length>1?'Two solutions: give each pair of x and y. Either order is fine.':q.scale===100?'Prices in pounds, like <code>2.40</code>. Pence like <code>240</code> also works.':'Whole numbers, decimals or fractions like <code>7/2</code>. Negatives work: <code>-3</code>.';
+
+/* ---------- views ---------- */
+const app=document.getElementById('app');
+let view={name:'home'},timerId=null;
+function go(v){clearInterval(timerId);view=v;render();window.scrollTo(0,0)}
+document.getElementById('detail').onchange=e=>{S.brief=!e.target.checked;save();document.body.classList.toggle('brief',S.brief)};
+document.getElementById('brand').onclick=()=>go({name:'home'});
+document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>go({name:b.dataset.nav}));
+function render(){
+  document.body.classList.toggle('brief',!!S.brief);document.getElementById('detail').checked=!S.brief;
+  document.querySelectorAll('[data-nav]').forEach(b=>{if(b.dataset.nav===view.name)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
+  ({home:renderHome,topic:renderTopic,mocks:renderMocks,mock:renderMock,results:renderResults,achs:renderAchs})[view.name]()}
+
+function topicCard(t){
+  if(t.lessonOnly)return`<button class="topic start" data-topic="${t.id}">
+    <div class="row"><h3>${t.name}</h3><span class="pill read">Read first</span></div><div class="eq">${t.eq}</div>
+    <small class="muted">A short lesson from zero. No questions, just the ideas everything else builds on.</small></button>`;
+  const locked=!unlocked(t.track),m=mastery(t.id),st=tp(t.id);
+  const pill=locked?'<span class="pill lock">Locked</span>':st.mastered?'<span class="pill ok">Mastered</span>':st.answered?`<span class="pill go">${m}%</span>`:'<span class="pill go">New</span>';
+  return`<button class="topic" data-topic="${t.id}" ${locked?'disabled':''}>
+    <div class="row"><h3>${t.name}</h3>${pill}</div><div class="eq">${t.eq}</div>
+    <div class="bar" aria-hidden="true"><i style="width:${locked?0:m}%"></i></div>
+    <small class="muted">${locked?`Pass the ${TRACKS[TRACKS[t.track].req].short.toLowerCase()} mock (80%) to unlock`:st.mastered?`${st.correct} of ${st.answered} correct overall`:'Mastered at 8 of your last 10 right'}</small></button>`}
+function trackSection(tr,n){const TR=TRACKS[tr],ts=topicsOf(tr),done=ts.filter(t=>tp(t.id).mastered).length,un=unlocked(tr);
+  return`<section class="sheet">
+    <div class="track-head"><div><div class="label">Stage ${n}</div><h2>${TR.name}</h2></div><span class="muted">${un?done+' of '+ts.length+' mastered':'Locked until you pass the '+TRACKS[TR.req].short.toLowerCase()+' mock'}</span></div>
+    <div class="topics">${TOPICS.filter(t=>t.track===tr).map(topicCard).join('')}</div>
+    <div class="btns" style="margin-top:16px"><button class="btn" data-mock="${tr}" ${un?'':'disabled'}>Take the ${TR.short.toLowerCase()} mock test</button><span class="muted">${bestMock(tr)>=0?'Best score: '+bestMock(tr)+'%':'Pass mark 80%'}</span></div></section>`}
+
+function renderHome(){const sub=SUBJ[S.subject]?S.subject:'eq',SB=SUBJ[sub];
+  const all=TOPICS.filter(t=>!t.lessonOnly),mastered=all.filter(t=>tp(t.id).mastered).length;
+  app.innerHTML=`<div class="stack">
+  <div class="seg" role="tablist" aria-label="Subject">${Object.entries(SUBJ).map(([k,v])=>`<button role="tab" data-subj="${k}" aria-selected="${k===sub}">${v.name}</button>`).join('')}</div>
+  <section class="sheet hero"><div>
+      <div class="label">${SB.eyebrow}</div>
+      <h1>${S.name?esc(S.name)+'’s':'Your'} road from <span class="hl">${SB.from}</span> to <span class="hl">${SB.to}</span></h1>
+      <p class="muted" style="margin-top:10px">${SB.blurb}</p>
+      <div class="namefield"><label class="label" for="learner">Who’s learning?</label><input type="text" id="learner" placeholder="Type a name" value="${esc(S.name)}" maxlength="30"></div></div>
+    <div class="stats">
+      <div class="stat"><span class="label">Correct answers</span><b>${S.totalCorrect}</b></div>
+      <div class="stat"><span class="label">Best streak</span><b>${S.best}</b></div>
+      <div class="stat"><span class="label">Topics mastered</span><b>${mastered}/${all.length}</b></div>
+      <div class="stat"><span class="label">Achievements</span><b>${Object.keys(S.ach).filter(k=>ACHS.some(a=>a.id===k)).length}/${ACHS.length}</b></div></div></section>
+  ${SB.tracks.map((tr,i)=>trackSection(tr,i+1)).join('')}</div>`;
+  const nm=document.getElementById('learner');nm.oninput=()=>{S.name=nm.value.trim();save()};nm.onchange=()=>render();
+  app.querySelectorAll('[data-subj]').forEach(b=>b.onclick=()=>{S.subject=b.dataset.subj;save();render()});
+  app.querySelectorAll('[data-topic]').forEach(b=>b.onclick=()=>{const t=T(b.dataset.topic);go({name:'topic',id:t.id,tab:t.lessonOnly||!tp(t.id).answered?'learn':'practice'})});
+  app.querySelectorAll('[data-mock]').forEach(b=>b.onclick=()=>startMock(b.dataset.mock))}
+
+/* practice */
+let P=null;
+function newQ(id){P={id,q:T(id).gen(),shown:0,hint:false,done:false,res:null,vals:null}}
+function renderTopic(){const t=T(view.id);
+  if(t.lessonOnly){const nx=topicsOf(t.track)[0];app.innerHTML=`<div class="stack"><section class="sheet stack"><div><div class="label">Start here · ${TRACKS[t.track].name}</div><h1>${t.name}</h1></div><div class="lesson">${t.lesson}</div>
+    <div class="btns"><button class="btn" id="nx">Next: ${nx.name}</button><button class="btn ghost" id="bk">All topics</button></div></section></div>`;
+    document.getElementById('nx').onclick=()=>go({name:'topic',id:nx.id,tab:'learn'});document.getElementById('bk').onclick=()=>go({name:'home'});return}
+  if(!P||P.id!==t.id)newQ(t.id);const st=tp(t.id);
+  const dots=Array.from({length:10},(_,i)=>{const v=st.recent[i];return`<i class="${v===1?'y':v===0?'n':''}"></i>`}).join('');
+  app.innerHTML=`<div class="stack"><section class="sheet stack">
+    <div class="track-head"><div><div class="label">${TRACKS[t.track].name}</div><h1>${t.name}</h1></div>
+      ${st.mastered?'<span class="pill ok">Mastered</span>':`<span class="pill go">${mastery(t.id)}% towards mastery</span>`}</div>
+    <div class="subtabs" role="tablist">
+      <button class="subtab" role="tab" data-sub="learn" aria-selected="${view.tab==='learn'}">Learn</button>
+      <button class="subtab" role="tab" data-sub="practice" aria-selected="${view.tab==='practice'}">Practise</button></div>
+    <div id="pane"></div></section></div>`;
+  app.querySelectorAll('[data-sub]').forEach(b=>b.onclick=()=>{view.tab=b.dataset.sub;render()});
+  const pane=document.getElementById('pane');
+  if(view.tab==='learn'){pane.innerHTML=`<div class="lesson">${t.lesson}<div class="btns"><button class="btn" id="toprac">Start practising</button></div></div>`;
+    document.getElementById('toprac').onclick=()=>{view.tab='practice';render()};return}
+  const q=P.q;
+  pane.innerHTML=`<div class="qbox">
+    <div><span class="label">${qLabel(q)}</span>${qHtml(q)}</div>
+    <form class="answer-row" id="af">${inputsHtml(q,P.done?'disabled':'')}<button class="btn" type="submit" ${P.done?'disabled':''}>Check</button></form>
+    <div class="howto">${howto(q)}</div><div id="fb"></div>
+    <div class="btns">${P.done?'<button class="btn" id="next">Next question</button>':`<button class="btn ghost small" id="hint" ${P.shown>=q.steps.length?'disabled':''}>${P.shown?'Show next step':'Walk me through it, one step at a time'}</button>`}<button class="btn ghost small" id="back">All topics</button></div>
+    <div><div class="label" style="margin-bottom:6px">Last 10 answers</div><div class="dots">${dots}</div></div></div>`;
+  if(P.vals)P.vals.forEach((p,i)=>p.forEach((v,j)=>{document.getElementById(`a${i}_${j}`).value=v}));
+  const fb=document.getElementById('fb');
+  if(P.shown&&!P.done)fb.innerHTML=`<div class="fb" style="background:var(--accent-soft);color:var(--accent)"><b>Step ${P.shown} of ${q.steps.length}</b>${W((q.word?[]:[[q.q,'Start']]).concat(q.steps.slice(0,P.shown)))}<small>${P.shown<q.steps.length?'Try the next line yourself, or reveal it.':'That’s the full method. Type the answer in the boxes.'}</small></div>`;
+  if(P.done)fb.innerHTML=P.res?`<div class="fb good"><b>Correct!</b> ${fmtAns(q)}${S.streak>1?` · streak ${S.streak}`:''}<details><summary>See the working</summary>${workHtml(q)}</details></div>`
+    :`<div class="fb bad"><b>Not quite.</b> The answer is ${fmtAns(q)}. Here’s how:${workHtml(q)}</div>`;
+  document.getElementById('back').onclick=()=>go({name:'home'});
+  if(P.done){const n=document.getElementById('next');n.onclick=()=>{newQ(t.id);render();document.getElementById('a0_0').focus()};n.focus();return}
+  document.getElementById('hint').onclick=()=>{P.vals=readVals(q);P.hint=true;P.shown++;render();document.getElementById('a0_0').focus()};
+  document.getElementById('af').onsubmit=e=>{e.preventDefault();const vals=readVals(q);const r=check(q,vals);
+    if(r.invalid){fb.innerHTML=`<div class="fb bad">Fill in every box with a number${q.sols.length>1?', for both solutions':''}.</div>`;return}
+    P.vals=vals;P.done=true;P.res=r.ok;record(t.id,r.ok,P.hint);render()};
+  if(!P.vals)document.getElementById('a0_0').focus()}
+
+function record(id,ok,hint){const t=tp(id);t.answered++;if(ok)t.correct++;t.recent.push(ok?1:0);if(t.recent.length>10)t.recent.shift();
+  if(!t.mastered&&t.recent.length>=10&&recentScore(id)>=8){t.mastered=true;toast({b:'★',name:T(id).name+' mastered'})}
+  if(ok){S.streak++;S.totalCorrect++;S.hint0=hint?0:S.hint0+1}else{S.streak=0;S.hint0=0}
+  S.best=Math.max(S.best,S.streak);save();checkAch()}
+
+/* mock tests */
+let M=null;
+function startMock(track){const qs=[];
+  TRACKS[track].mock.forEach(([id,n])=>{for(let i=0;i<n;i++){const tid=Array.isArray(id)?pick(id):id;qs.push({t:tid,...T(tid).gen()})}});
+  qs.sort(()=>Math.random()-.5);
+  M={track,qs,i:0,answers:[],start:Date.now()};go({name:'mock'})}
+const mmss=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+function renderMock(){if(!M)return go({name:'mocks'});const q=M.qs[M.i];
+  app.innerHTML=`<section class="sheet qbox">
+    <div class="mockhead"><div><div class="label">${TRACKS[M.track].short} mock test</div><h2>Question ${M.i+1} of ${M.qs.length}</h2></div><div class="timer" id="tm">0:00</div></div>
+    <div class="bar"><i style="width:${M.i/M.qs.length*100}%"></i></div>
+    <div><span class="label">${qLabel(q)}</span>${qHtml(q)}</div>
+    <form class="answer-row" id="af">${inputsHtml(q,'')}<button class="btn" type="submit">${M.i===M.qs.length-1?'Finish':'Next'}</button></form>
+    <div class="howto">${howto(q)} No hints in a mock. Marks are shown at the end. Leave it blank to skip.</div>
+    <div class="btns"><button class="btn ghost small" id="quit">Quit test</button><span id="quitc"></span></div></section>`;
+  const tm=document.getElementById('tm');const tick=()=>tm.textContent=mmss(Math.floor((Date.now()-M.start)/1000));tick();clearInterval(timerId);timerId=setInterval(tick,1000);
+  document.getElementById('a0_0').focus();
+  document.getElementById('quit').onclick=()=>{document.getElementById('quitc').innerHTML='Quit without saving? <button class="btn small" id="qy">Yes, quit</button>';document.getElementById('qy').onclick=()=>{M=null;go({name:'home'})}};
+  document.getElementById('af').onsubmit=e=>{e.preventDefault();const vals=readVals(q),F=fieldsOf(q),blank=vals.every(p=>p.every(v=>!v.trim()));
+    M.answers.push({val:blank?'':vals.map(p=>p.map((v,j)=>`${F[j].l} = ${v||'?'}`).join(', ')).join('; '),ok:blank?false:check(q,vals).ok});M.i++;
+    if(M.i<M.qs.length)renderMock();else finishMock()}}
+function finishMock(){clearInterval(timerId);const secs=Math.round((Date.now()-M.start)/1000);
+  const score=M.answers.filter(a=>a.ok).length,pct=Math.round(score/M.qs.length*100),prev=bestMock(M.track);
+  const firstPass=pct>=80&&!S.ach[M.track+'mock'];
+  S.mocks.push({track:M.track,score,total:M.qs.length,pct,secs,date:new Date().toISOString()});
+  if(prev>=0&&pct>prev)unlock('pb');if(pct===100)unlock('perfect');if(secs<600&&pct>=70)unlock('speed');
+  if(pct>=80)unlock(M.track+'mock');
+  if(Object.keys(TRACKS).every(tr=>S.ach[tr+'mock']))unlock('allround');
+  save();M.result={score,pct,secs,prev,firstPass};go({name:'results'})}
+function renderResults(){if(!M||!M.result)return go({name:'mocks'});const {score,pct,secs,prev,firstPass}=M.result,pass=pct>=80;
+  const nextTr=Object.keys(TRACKS).find(k=>TRACKS[k].req===M.track);
+  const msg=pass?(firstPass&&nextTr?`Passed. ${TRACKS[nextTr].name} is now unlocked.`:'Passed. Nice work.'):'Pass mark is 80%. Check the working below, practise those topics, then try again.';
+  app.innerHTML=`<div class="stack"><section class="sheet stack">
+    <div class="label">${TRACKS[M.track].short} mock test · ${mmss(secs)}</div>
+    <div class="btns" style="align-items:flex-end;gap:18px"><div class="score-big" style="color:${pass?'var(--good)':'var(--bad)'}">${score}/${M.qs.length}</div><h2>${pct}%${prev>=0?` <span class="muted" style="font-size:1rem">(best before: ${prev}%)</span>`:''}</h2></div>
+    <p>${msg}</p>
+    <div class="btns"><button class="btn" id="again">Try another</button><button class="btn ghost" id="home">Back to topics</button></div></section>
+    <section class="sheet"><h2 style="margin-bottom:8px">Your answers</h2>
+    ${M.qs.map((q,i)=>{const a=M.answers[i];return`<details><summary><span class="pill ${a.ok?'ok':'bad'}">${a.ok?'Right':'Wrong'}</span><span class="muted">Q${i+1} · ${T(q.t).name}</span></summary>
+      <div style="margin-top:8px">${qHtml(q)}</div><p class="muted">You said: ${a.val?esc(a.val):'(blank)'}${a.ok?'':'<br>Answer: '+fmtAns(q)}</p>${workHtml(q)}<button class="btn ghost small" data-pr="${q.t}">Practise this topic</button></details>`}).join('')}
+    </section></div>`;
+  document.getElementById('again').onclick=()=>startMock(M.track);document.getElementById('home').onclick=()=>go({name:'home'});
+  app.querySelectorAll('[data-pr]').forEach(b=>b.onclick=()=>go({name:'topic',id:b.dataset.pr,tab:'practice'}))}
+
+function chart(){const ms=S.mocks.filter(m=>TRACKS[m.track]).slice(-12);if(!ms.length)return'<p class="muted">No mock tests yet. Your scores will be plotted here, so you can see them climb.</p>';
+  const Wd=640,H=220,L=40,Rt=16,Tp=14,B=34,n=ms.length;
+  const x=i=>n===1?L+(Wd-L-Rt)/2:L+i*(Wd-L-Rt)/(n-1),y=p=>Tp+(100-p)/100*(H-Tp-B);
+  let g='';[0,20,40,60,80,100].forEach(p=>{g+=`<line x1="${L}" x2="${Wd-Rt}" y1="${y(p)}" y2="${y(p)}" style="stroke:var(--grid)"/><text x="${L-8}" y="${y(p)+4}" text-anchor="end" font-size="11" style="fill:var(--muted)">${p}%</text>`});
+  g+=`<line x1="${L}" x2="${Wd-Rt}" y1="${y(80)}" y2="${y(80)}" style="stroke:var(--margin)" stroke-dasharray="5 4" stroke-width="1.5"/><text x="${Wd-Rt}" y="${y(80)-6}" text-anchor="end" font-size="11" style="fill:var(--margin)">pass mark</text>`;
+  const used=Object.keys(TRACKS).filter(tr=>ms.some(m=>m.track===tr));
+  used.forEach(tr=>{const pts=ms.map((m,i)=>[m,i]).filter(([m])=>m.track===tr),col=TRACKS[tr].color;
+    if(pts.length>1)g+=`<polyline style="fill:none;stroke:${col}" stroke-width="2.5" stroke-linejoin="round" points="${pts.map(([m,i])=>x(i)+','+y(m.pct)).join(' ')}"/>`;
+    pts.forEach(([m,i],k)=>{const last=k===pts.length-1;g+=`<circle cx="${x(i)}" cy="${y(m.pct)}" r="${last?6:4}" style="fill:${last?col:'var(--sheet)'};stroke:${col}" stroke-width="2.5"/>`})});
+  ms.forEach((m,i)=>{g+=`<text x="${x(i)}" y="${H-12}" text-anchor="middle" font-size="11" style="fill:var(--muted)">${i+1}</text>`});
+  return`<div class="chartbox"><svg viewBox="0 0 ${Wd} ${H}" role="img" aria-label="Mock test scores over time">${g}</svg></div>
+  <div class="btns" style="font-size:.85rem">${used.map(tr=>`<span><b style="color:${TRACKS[tr].color}">●</b> ${TRACKS[tr].short}</span>`).join('')}<span class="muted">Last ${n} tests, oldest first</span></div>`}
+
+function renderMocks(){const rows=S.mocks.filter(m=>TRACKS[m.track]).slice().reverse().slice(0,15);
+  const card=tr=>{const TR=TRACKS[tr],un=unlocked(tr);return`<div class="mockcard"><div class="label">${SUBJ[TR.subj].name}</div><h3>${TR.short} mock</h3><p class="muted">${un?TR.mockDesc:`Unlocks when you score 80% on the ${TRACKS[TR.req].short.toLowerCase()} mock.`}</p><div class="muted">${bestMock(tr)>=0?'Best: <b>'+bestMock(tr)+'%</b>':'Not taken yet'}</div><div><button class="btn" data-mock="${tr}" ${un?'':'disabled'}>Start ${TR.short.toLowerCase()} mock</button></div></div>`};
+  app.innerHTML=`<div class="stack"><section class="sheet stack"><div><div class="label">Check your progress</div><h1>Mock tests</h1></div>
+    <p class="muted">Ten questions, a timer, and no hints, just like the real thing. You see your marks and full working at the end.</p>
+    <div class="mocks">${Object.keys(TRACKS).map(card).join('')}</div></section>
+    <section class="sheet stack"><h2>Score history</h2>${chart()}
+    ${rows.length?`<div class="tablebox"><table><thead><tr><th>Date</th><th>Test</th><th>Score</th><th>Time</th></tr></thead><tbody>${rows.map(m=>`<tr><td>${new Date(m.date).toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</td><td>${TRACKS[m.track].short}</td><td><b style="color:${m.pct>=80?'var(--good)':'var(--ink)'}">${m.score}/${m.total}</b> (${m.pct}%)</td><td>${mmss(m.secs)}</td></tr>`).join('')}</tbody></table></div>`:''}</section></div>`;
+  app.querySelectorAll('[data-mock]').forEach(b=>b.onclick=()=>startMock(b.dataset.mock))}
+
+function renderAchs(){const got=ACHS.filter(a=>S.ach[a.id]).length;
+  app.innerHTML=`<div class="stack"><section class="sheet stack">
+    <div class="track-head"><div><div class="label">Progress log</div><h1>Achievements</h1></div><span class="pill go">${got} of ${ACHS.length} unlocked</span></div>
+    <div class="bar"><i style="width:${got/ACHS.length*100}%"></i></div>
+    <div class="achs">${ACHS.map(a=>{const d=S.ach[a.id];return`<div class="ach ${d?'on':'off'}"><span class="badge">${a.b}</span><div><b>${a.name}</b><small>${a.d}</small>${d?`<small style="color:var(--good)">Unlocked ${new Date(d).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</small>`:''}</div></div>`}).join('')}</div></section>
+    <section class="sheet stack"><h3>Start again</h3><p class="muted">Progress is saved in this browser on this device. Resetting wipes every score and achievement.</p>
+    <div class="btns"><button class="btn ghost small" id="reset">Reset all progress</button><span id="rc"></span></div></section></div>`;
+  document.getElementById('reset').onclick=()=>{document.getElementById('rc').innerHTML='Are you sure? <button class="btn small" id="ry">Yes, wipe it</button>';
+    document.getElementById('ry').onclick=()=>{S=fresh();save();P=null;go({name:'home'})}}}
+
+render();
+
+</script>
+
+</body>
+</html>
